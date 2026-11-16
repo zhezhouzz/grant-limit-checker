@@ -8,7 +8,8 @@
   </head>
   <body>
     <div id="app"></div>
-    <script src="./kernel.js"></script>
+    <!-- 修改 OCaml/JavaScript 输入协议时递增版本，避免 Pages CDN 短暂复用旧内核。 -->
+    <script src="./kernel.js?v=2"></script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
