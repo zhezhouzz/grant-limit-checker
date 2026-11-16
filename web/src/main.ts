@@ -92,24 +92,25 @@ app.innerHTML = `
   </header>
   <main>
     <section class="intro">
-      <p class="eyebrow">Rocq formalization · OCaml kernel</p>
-      <h1>像做类型检查一样<br>检查项目限项</h1>
-      <p class="lede">选择你正在参与和拟参与的项目。形式化内核返回结论、计数过程、触发规则和正式来源。</p>
-      <div class="notice" role="note"><strong>非官方工具。</strong> 当前仅部分覆盖 2026 年国家自然科学基金通用规则，结果仅供参考，请以当年正式指南和依托单位解释为准。</div>
+      <p class="eyebrow">Formal · Executable · Open Source</p>
+      <h1>严格形式化的<br>项目限项检查器</h1>
+      <div class="principles" role="list" aria-label="项目标识">
+        <article class="principle unofficial" role="listitem"><span>01</span><div><strong>非官方工具</strong><p>结果仅供参考，以当年正式指南和依托单位解释为准。</p></div></article>
+        <article class="principle" role="listitem"><span>02</span><div><strong>中文规则</strong><p>检查规则（中文）形式化在 Rocq 之中，方便大家检查和阅读。</p></div></article>
+        <article class="principle" role="listitem"><span>03</span><div><strong>可执行内核</strong><p>形式化的定义直接 extract 成 OCaml 可执行程序，在网页之中运行。</p></div></article>
+      </div>
     </section>
 
     <section id="checker" class="checker" aria-labelledby="checker-title">
       <div class="section-heading">
         <div><span class="step">01</span><h2 id="checker-title">个人情况</h2></div>
-        <p>类别使用受控选项；年份和金额作为经过范围校验的数值 feature 进入内核。</p>
       </div>
       <div class="field-grid single">
-        <label class="field"><span>当前专业技术职务 ${info("职称会影响总数限制及主要参与者项目的计数起点。")}</span><select id="current-title">${options(titles, 0)}</select></label>
+        ${selectField("current-title", "当前专业技术职务", titles, 0, "职称会影响项目数量上限。")}
       </div>
 
       <div class="section-heading subsection">
         <div><span class="step">02</span><h2>拟申请或拟参与项目</h2></div>
-        <p>这是本次需要检查的候选项目。</p>
       </div>
       <div id="candidate" class="field-grid">
         ${selectField("candidate-kind", "项目类型", kinds, 0, "不同项目类型可能适用通用限项和额外特殊规则。")}
@@ -123,7 +124,7 @@ app.innerHTML = `
         <button id="add-project" class="button secondary" type="button">＋ 添加项目</button>
       </div>
       <div id="project-list" class="project-list"></div>
-      <div id="empty-state" class="empty-state">还没有添加项目。若你目前没有相关项目，可以直接检查。</div>
+      <div id="empty-state" class="empty-state">尚未添加已有项目，可以直接检查。</div>
 
       <div class="actions">
         <button id="run-check" class="button primary" type="button">运行形式化检查 <span>⌘↵</span></button>
@@ -139,16 +140,16 @@ app.innerHTML = `
       </div>
       <div class="source-grid">
         <article><h3>官方来源</h3><p>《2026 年度国家自然科学基金项目指南——申请规定》</p><a href="https://www.nsfc.gov.cn/u/cms/www/202601/190844586k0w.pdf" target="_blank" rel="noreferrer">查看基金委 PDF ↗</a></article>
-        <article><h3>形式化范围</h3><p>当前证明和抽取覆盖一般同类型限制、职称总数限制及部分计数边界。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/blob/main/docs/sources/nsfc-2026.md" target="_blank" rel="noreferrer">查看规则映射 ↗</a></article>
-        <article><h3>发现问题？</h3><p>请附官方来源、条款位置和匿名化反例，帮助社区完善定义。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/issues/new?template=rule-report.yml" target="_blank" rel="noreferrer">提交规则 Issue ↗</a></article>
+        <article><h3>形式化范围</h3><p>规则、定义与证明均可公开审阅。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/blob/main/docs/sources/nsfc-2026.md" target="_blank" rel="noreferrer">查看规则映射 ↗</a></article>
+        <article><h3>发现问题？</h3><p>提交正式来源、规则纠错或匿名化反例。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/issues/new?template=rule-report.yml" target="_blank" rel="noreferrer">提交规则 Issue ↗</a></article>
       </div>
     </section>
   </main>
-  <footer><p>非官方、开源、可审查。判定内核由 Rocq 抽取到 OCaml。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/blob/main/LICENSE">MIT License</a></footer>
+  <footer><p>非官方 · 中文规则 · Rocq → OCaml</p><a href="https://github.com/zhezhouzz/grant-limit-checker/blob/main/LICENSE">MIT License</a></footer>
 `;
 
-function info(help: string): string {
-  return `<span class="info" tabindex="0" aria-label="说明：${help}">i<span class="tooltip" role="tooltip">${help}</span></span>`;
+function info(help: string, id?: string): string {
+  return `<span class="info" tabindex="0" aria-label="说明：${help}">i<span class="tooltip" ${id ? `id="${id}"` : ""} role="tooltip">${help}</span></span>`;
 }
 
 function options(values: Option[], selected: number): string {
@@ -156,7 +157,8 @@ function options(values: Option[], selected: number): string {
 }
 
 function selectField(id: string, label: string, values: Option[], selected: number, help: string): string {
-  return `<label class="field"><span>${label} ${info(help)}</span><select id="${id}">${options(values, selected)}</select><small id="${id}-help">${values.find((item) => item.value === selected)?.help ?? ""}</small></label>`;
+  const selectedHelp = values.find((item) => item.value === selected)?.help ?? help;
+  return `<label class="field"><span>${label} ${info(selectedHelp, `${id}-help`)}</span><select id="${id}" aria-describedby="${id}-help">${options(values, selected)}</select></label>`;
 }
 
 function yearField(id: string, label: string, selected: number, help: string, fixed = false): string {
@@ -165,7 +167,7 @@ function yearField(id: string, label: string, selected: number, help: string, fi
 }
 
 function numberField(id: string, label: string, value: number, help: string): string {
-  return `<label class="field"><span>${label} ${info(help)}</span><input id="${id}" type="number" inputmode="numeric" min="0" max="100000" step="1" value="${value}" aria-describedby="${id}-help"><small id="${id}-help">请输入非负整数；非金额相关项目保持 0 即可。</small></label>`;
+  return `<label class="field"><span>${label} ${info(help, `${id}-help`)}</span><input id="${id}" type="number" inputmode="numeric" min="0" max="100000" step="1" value="${value}" aria-describedby="${id}-help"></label>`;
 }
 
 function updateHelp(select: HTMLSelectElement, values: Option[]): void {
@@ -279,7 +281,7 @@ function renderResult(result: KernelResult, title: number): void {
       <div class="count-summary">${countSummary}<small>同类型申请计数：${result.counts.sameType}</small></div>
     </div>
     <div class="diagnostics"><h3 class="diagnostics-title">诊断信息</h3>${diagnostics}</div>
-    <div class="coverage-warning"><strong>覆盖范围提示：</strong> 当前为早期 MVP，只实现部分 2026 年通用规则。重点项目、联合基金、国际合作、重大仪器、群体及人才项目等仍有未覆盖的特殊限制。</div>`;
+    <div class="coverage-warning">当前版本仅覆盖部分 2026 年通用规则；特殊项目请同时核对对应指南。</div>`;
   element.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -294,6 +296,7 @@ document.addEventListener("keydown", (event) => {
 });
 bindHelp("candidate-kind", kinds);
 bindHelp("candidate-role", roles);
+bindHelp("current-title", titles);
 renderProjects();
 
 const kernelStatus = document.querySelector<HTMLElement>("#kernel-status");
