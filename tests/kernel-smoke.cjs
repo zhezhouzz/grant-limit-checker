@@ -2,9 +2,16 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
+const kernelPath = "web/public/kernel.js";
+const kernelBytes = fs.statSync(kernelPath).size;
+assert.ok(
+  kernelBytes < 200_000,
+  `OCaml kernel is ${kernelBytes} bytes; expected a release build below 200 KB`
+);
+
 const context = { console, TextEncoder, TextDecoder, performance, process, require };
 vm.createContext(context);
-vm.runInContext(fs.readFileSync("web/public/kernel.js", "utf8"), context);
+vm.runInContext(fs.readFileSync(kernelPath, "utf8"), context);
 
 const kernel = context.GrantLimitKernel;
 assert.ok(kernel, "OCaml kernel should export GrantLimitKernel");
@@ -35,4 +42,4 @@ const over200 = check(
 assert.equal(exactly200.counts.total, 1);
 assert.equal(over200.counts.total, 2);
 
-console.log("OCaml kernel smoke tests passed");
+console.log(`OCaml kernel smoke tests passed (${kernelBytes} bytes)`);

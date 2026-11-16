@@ -1,5 +1,6 @@
 ROCQ := env -u ROCQPATH rocq compile -Q formal GrantLimit
 DUNE := opam exec -- dune
+DUNE_PROFILE := release
 FORMAL_FILES := formal/Model.v formal/Rules2026.v formal/Checker.v formal/Soundness.v formal/Extraction.v
 
 .PHONY: formal kernel web verify build dev clean
@@ -10,7 +11,7 @@ formal:
 	done
 
 kernel: formal
-	$(DUNE) build kernel/kernel_bridge.bc.js
+	$(DUNE) build --profile $(DUNE_PROFILE) kernel/kernel_bridge.bc.js
 	mkdir -p web/public
 	cp -f _build/default/kernel/kernel_bridge.bc.js web/public/kernel.js
 

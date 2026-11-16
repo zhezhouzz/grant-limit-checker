@@ -57,6 +57,7 @@ make build
 ```
 
 静态文件位于 `web/dist/`，可直接部署到 GitHub Pages。
+OCaml 网页内核固定使用 Dune `release` profile 构建；验证流程会拒绝超过 200 KB 的内核，避免误部署带内联 source map 的开发产物。
 
 ## 添加规则
 

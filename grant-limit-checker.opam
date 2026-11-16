@@ -16,5 +16,5 @@ depends: [
 ]
 build: [
   ["make" "formal"]
-  ["dune" "build" "kernel/kernel_bridge.bc.js"]
+  ["dune" "build" "--profile" "release" "kernel/kernel_bridge.bc.js"]
 ]
