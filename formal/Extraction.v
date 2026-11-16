@@ -20,15 +20,22 @@ Extract Inductive 项目类别 => "Domain_types.project_kind"
     "Domain_types.KeyInternational" "Domain_types.OrganizationInternational"
     "Domain_types.MajorInstrument" "Domain_types.InnovativeGroup"
     "Domain_types.ExcellenceGroup" "Domain_types.OriginalExplorationLong"
-    "Domain_types.SpecialLong" "Domain_types.ExemptKind" ].
+    "Domain_types.SpecialLong" "Domain_types.ExemptKind"
+    "Domain_types.NationalKeyRAndD" "Domain_types.NationalMajorProgram" ].
+Extract Inductive 项目标识 => "Domain_types.project_tag"
+  [ "Domain_types.NoSpecialTag" "Domain_types.YoungScientist"
+    "Domain_types.SmeProject" "Domain_types.InternationalCooperation"
+    "Domain_types.DepartmentRecommended" ].
 Extract Inductive 项目角色 => "Domain_types.project_role"
-  [ "Domain_types.Applicant" "Domain_types.Principal" "Domain_types.Participant" ].
+  [ "Domain_types.Applicant" "Domain_types.Principal" "Domain_types.Participant"
+    "Domain_types.TaskPrincipal" "Domain_types.AcademicLeader" "Domain_types.KeyMember" ].
 Extract Inductive 项目状态 => "Domain_types.project_status"
   [ "Domain_types.Applying" "Domain_types.Active" "Domain_types.EndsInApplicationYear"
     "Domain_types.RejectedAtInitialReview" "Domain_types.Completed" ].
 Extract Inductive 违规原因 => "Domain_types.violation"
   [ "Domain_types.SameTypeApplicationLimit" "Domain_types.SeniorTotalLimit"
-    "Domain_types.NonSeniorLeaderLimit" "Domain_types.NonSeniorParticipantLimit" ].
+    "Domain_types.NonSeniorLeaderLimit" "Domain_types.NonSeniorParticipantLimit"
+    "Domain_types.JointNationalProgramLimit" ].
 Extract Inductive 判定结果 => "Domain_types.decision"
   [ "Domain_types.Allowed" "Domain_types.Blocked" ].
 
@@ -37,12 +44,13 @@ Definition same_type_application_count := 同类申请总数.
 Definition total_count := 项目总数.
 Definition leader_count := 负责人项目总数.
 Definition participant_count := 参与者项目总数.
+Definition joint_count := 联合限项项目总数.
 Definition violations := 违规列表.
 Definition check := 检查.
 
 Extraction "kernel/generated/extracted.ml"
-  专业技术职称 项目类别 项目角色 项目状态
+  专业技术职称 项目类别 项目标识 项目角色 项目状态
   project profile 违规原因 判定结果
   mkProject mkProfile
-  same_type_application_count total_count leader_count participant_count
+  same_type_application_count total_count leader_count participant_count joint_count
   violations check.

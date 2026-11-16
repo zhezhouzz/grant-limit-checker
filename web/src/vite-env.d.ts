@@ -8,6 +8,7 @@ interface KernelResult {
     total: number;
     leader: number;
     participant: number;
+    joint: number;
   };
   violations: string[];
 }

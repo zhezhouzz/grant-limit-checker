@@ -20,12 +20,25 @@ let kind_of_int = function
   | 14 -> Some OriginalExplorationLong
   | 15 -> Some SpecialLong
   | 16 -> Some ExemptKind
+  | 17 -> Some NationalKeyRAndD
+  | 18 -> Some NationalMajorProgram
+  | _ -> None
+
+let tag_of_int = function
+  | 0 -> Some NoSpecialTag
+  | 1 -> Some YoungScientist
+  | 2 -> Some SmeProject
+  | 3 -> Some InternationalCooperation
+  | 4 -> Some DepartmentRecommended
   | _ -> None
 
 let role_of_int = function
   | 0 -> Some Applicant
   | 1 -> Some Principal
   | 2 -> Some Participant
+  | 3 -> Some TaskPrincipal
+  | 4 -> Some AcademicLeader
+  | 5 -> Some KeyMember
   | _ -> None
 
 let status_of_int = function
@@ -42,15 +55,16 @@ let parse_int value = try Some (int_of_string value) with Failure _ -> None
 
 let parse_project encoded =
   match String.split_on_char ',' encoded |> List.map parse_int with
-  | [ Some k; Some r; Some s; Some approval_year; Some direct_cost_wan; Some t ]
+  | [ Some k; Some tag_value; Some r; Some s; Some approval_year; Some direct_cost_wan; Some t ]
     when approval_year >= 1900 && approval_year <= 2200 && direct_cost_wan >= 0 ->
       Option.bind (kind_of_int k) (fun kind ->
-          Option.bind (role_of_int r) (fun role ->
-              Option.bind (status_of_int s) (fun status ->
-                  Option.map
-                    (fun title_at_approval ->
-                      { kind; role; status; approval_year; direct_cost_wan; title_at_approval })
-                    (title_of_int t))))
+          Option.bind (tag_of_int tag_value) (fun tag ->
+              Option.bind (role_of_int r) (fun role ->
+                  Option.bind (status_of_int s) (fun status ->
+                      Option.map
+                        (fun title_at_approval ->
+                          { kind; tag; role; status; approval_year; direct_cost_wan; title_at_approval })
+                        (title_of_int t)))))
   | _ -> None
 
 let rec parse_projects = function
@@ -65,6 +79,7 @@ let violation_code = function
   | SeniorTotalLimit -> "NSFC-2026-TOTAL-SENIOR-2"
   | NonSeniorLeaderLimit -> "NSFC-2026-TOTAL-NONSENIOR-LEADER-1"
   | NonSeniorParticipantLimit -> "NSFC-2026-TOTAL-NONSENIOR-PARTICIPANT-2"
+  | JointNationalProgramLimit -> "JOINT-2022-107-LIMIT-2"
 
 let json_string_list values =
   values |> List.map (Printf.sprintf "%S") |> String.concat "," |> Printf.sprintf "[%s]"
@@ -73,12 +88,13 @@ let result_json who candidate existing =
   let found = violations who candidate existing in
   let decision = match check who candidate existing with Allowed -> "allowed" | Blocked -> "blocked" in
   Printf.sprintf
-    {|{"ok":true,"decision":"%s","counts":{"sameType":%d,"total":%d,"leader":%d,"participant":%d},"violations":%s}|}
+    {|{"ok":true,"decision":"%s","counts":{"sameType":%d,"total":%d,"leader":%d,"participant":%d,"joint":%d},"violations":%s}|}
     decision
     (same_type_application_count candidate existing)
     (total_count who candidate existing)
     (leader_count who candidate existing)
     (participant_count who candidate existing)
+    (joint_count who candidate existing)
     (json_string_list (List.map violation_code found))
 
 let check_request title candidate existing =
@@ -89,7 +105,7 @@ let check_request title candidate existing =
   with
   | Some who, Some candidate, Some existing -> result_json who candidate existing
   | _ ->
-      {|{"ok":false,"decision":"invalid","counts":{"sameType":0,"total":0,"leader":0,"participant":0},"violations":["INVALID-NORMALIZED-INPUT"]}|}
+      {|{"ok":false,"decision":"invalid","counts":{"sameType":0,"total":0,"leader":0,"participant":0,"joint":0},"violations":["INVALID-NORMALIZED-INPUT"]}|}
 
 let () =
   Js.export "GrantLimitKernel"

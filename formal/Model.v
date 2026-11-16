@@ -22,12 +22,17 @@ Inductive 项目类别 : Type :=
 | 卓越研究群体
 | 原创探索长期
 | 专项长期
-| 不计总数项目.
+| 不计总数项目
+| 国家重点研发计划
+| 国家科技重大专项.
 
 Inductive 项目角色 : Type :=
 | 申请人
 | 项目负责人
-| 主要参与者.
+| 主要参与者
+| 课题负责人
+| 学术带头人
+| 骨干成员.
 
 Inductive 项目状态 : Type :=
 | 申请中
@@ -36,9 +41,17 @@ Inductive 项目状态 : Type :=
 | 初审不予受理
 | 已经结题.
 
+Inductive 项目标识 : Type :=
+| 无特殊标识
+| 青年科学家标识
+| 科技型中小企业标识
+| 国际合作类标识
+| 部门推荐标识.
+
 (** 项目的原始事实。年份和金额保留为数值，由具体年度规则定义阈值谓词。 *)
 Record project : Type := mkProject {
   kind : 项目类别;
+  tag : 项目标识;
   role : 项目角色;
   status : 项目状态;
   approval_year : nat;
@@ -54,6 +67,7 @@ Record profile : Type := mkProfile {
 Notation 项目 := project.
 Notation 人员情况 := profile.
 Definition 项目类别值 := kind.
+Definition 项目标识值 := tag.
 Definition 项目角色值 := role.
 Definition 项目状态值 := status.
 Definition 批准年份 := approval_year.
@@ -67,7 +81,8 @@ Inductive 违规原因 : Type :=
 | 同年同类申请超限
 | 高级职称总数超限
 | 非高级职称负责人超限
-| 非高级职称参与者超限.
+| 非高级职称参与者超限
+| 国家科技计划联合限项超限.
 
 Inductive 判定结果 : Type :=
 | 允许
@@ -84,7 +99,9 @@ Definition 项目类别相同 (x y : 项目类别) : bool :=
   | 创新研究群体, 创新研究群体
   | 卓越研究群体, 卓越研究群体
   | 原创探索长期, 原创探索长期
-  | 专项长期, 专项长期 | 不计总数项目, 不计总数项目 => true
+  | 专项长期, 专项长期 | 不计总数项目, 不计总数项目
+  | 国家重点研发计划, 国家重点研发计划
+  | 国家科技重大专项, 国家科技重大专项 => true
   | _, _ => false
   end.
 
@@ -92,7 +109,13 @@ Definition 是申请人 (r : 项目角色) : bool :=
   match r with 申请人 => true | _ => false end.
 
 Definition 是负责人 (r : 项目角色) : bool :=
-  match r with 申请人 | 项目负责人 => true | 主要参与者 => false end.
+  match r with 申请人 | 项目负责人 => true | _ => false end.
 
 Definition 是参与者 (r : 项目角色) : bool :=
   match r with 主要参与者 => true | _ => false end.
+
+Definition 是项目或课题负责人 (r : 项目角色) : bool :=
+  match r with 申请人 | 项目负责人 | 课题负责人 => true | _ => false end.
+
+Definition 是学术带头人或骨干成员 (r : 项目角色) : bool :=
+  match r with 申请人 | 学术带头人 | 骨干成员 => true | _ => false end.

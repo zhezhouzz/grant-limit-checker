@@ -18,8 +18,23 @@ type project_kind =
   | OriginalExplorationLong
   | SpecialLong
   | ExemptKind
+  | NationalKeyRAndD
+  | NationalMajorProgram
 
-type project_role = Applicant | Principal | Participant
+type project_tag =
+  | NoSpecialTag
+  | YoungScientist
+  | SmeProject
+  | InternationalCooperation
+  | DepartmentRecommended
+
+type project_role =
+  | Applicant
+  | Principal
+  | Participant
+  | TaskPrincipal
+  | AcademicLeader
+  | KeyMember
 
 type project_status =
   | Applying
@@ -33,5 +48,6 @@ type violation =
   | SeniorTotalLimit
   | NonSeniorLeaderLimit
   | NonSeniorParticipantLimit
+  | JointNationalProgramLimit
 
 type decision = Allowed | Blocked
