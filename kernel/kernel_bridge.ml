@@ -44,9 +44,8 @@ let role_of_int = function
 let status_of_int = function
   | 0 -> Some Applying
   | 1 -> Some Active
-  | 2 -> Some EndsInApplicationYear
-  | 3 -> Some RejectedAtInitialReview
-  | 4 -> Some Completed
+  | 2 -> Some RejectedAtInitialReview
+  | 3 -> Some Completed
   | _ -> None
 
 let title_of_int = function 0 -> Some Senior | 1 -> Some NonSenior | _ -> None
@@ -55,15 +54,18 @@ let parse_int value = try Some (int_of_string value) with Failure _ -> None
 
 let parse_project encoded =
   match String.split_on_char ',' encoded |> List.map parse_int with
-  | [ Some k; Some tag_value; Some r; Some s; Some approval_year; Some direct_cost_wan; Some t ]
-    when approval_year >= 1900 && approval_year <= 2200 && direct_cost_wan >= 0 ->
+  | [ Some k; Some tag_value; Some r; Some s; Some approval_year; Some end_year;
+      Some direct_cost_wan; Some t ]
+    when approval_year >= 1900 && approval_year <= 2200
+         && end_year >= approval_year && end_year <= 2200 && direct_cost_wan >= 0 ->
       Option.bind (kind_of_int k) (fun kind ->
           Option.bind (tag_of_int tag_value) (fun tag ->
               Option.bind (role_of_int r) (fun role ->
                   Option.bind (status_of_int s) (fun status ->
                       Option.map
                         (fun title_at_approval ->
-                          { kind; tag; role; status; approval_year; direct_cost_wan; title_at_approval })
+                          { kind; tag; role; status; approval_year; end_year;
+                            direct_cost_wan; title_at_approval })
                         (title_of_int t)))))
   | _ -> None
 
@@ -84,33 +86,35 @@ let violation_code = function
 let json_string_list values =
   values |> List.map (Printf.sprintf "%S") |> String.concat "," |> Printf.sprintf "[%s]"
 
-let result_json who candidate existing =
-  let found = violations who candidate existing in
-  let decision = match check who candidate existing with Allowed -> "allowed" | Blocked -> "blocked" in
+let result_json who application_year candidate existing =
+  let found = violations who application_year candidate existing in
+  let decision = match check who application_year candidate existing with Allowed -> "allowed" | Blocked -> "blocked" in
   Printf.sprintf
     {|{"ok":true,"decision":"%s","counts":{"sameType":%d,"total":%d,"leader":%d,"participant":%d,"joint":%d},"violations":%s}|}
     decision
     (same_type_application_count candidate existing)
-    (total_count who candidate existing)
-    (leader_count who candidate existing)
-    (participant_count who candidate existing)
-    (joint_count who candidate existing)
+    (total_count who application_year candidate existing)
+    (leader_count who application_year candidate existing)
+    (participant_count who application_year candidate existing)
+    (joint_count who application_year candidate existing)
     (json_string_list (List.map violation_code found))
 
-let check_request title candidate existing =
+let check_request title application_year candidate existing =
   match
     ( title_of_int title,
       parse_project candidate,
       parse_projects (String.split_on_char ';' existing) )
   with
-  | Some who, Some candidate, Some existing -> result_json who candidate existing
+  | Some who, Some candidate, Some existing
+    when application_year >= 1900 && application_year <= 2200 ->
+      result_json who application_year candidate existing
   | _ ->
       {|{"ok":false,"decision":"invalid","counts":{"sameType":0,"total":0,"leader":0,"participant":0,"joint":0},"violations":["INVALID-NORMALIZED-INPUT"]}|}
 
 let () =
   Js.export "GrantLimitKernel"
     (object%js
-       method check title candidate existing =
-         check_request title (Js.to_string candidate) (Js.to_string existing)
+       method check title application_year candidate existing =
+         check_request title application_year (Js.to_string candidate) (Js.to_string existing)
          |> Js.string
     end)

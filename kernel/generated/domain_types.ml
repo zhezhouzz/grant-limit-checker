@@ -39,7 +39,6 @@ type project_role =
 type project_status =
   | Applying
   | Active
-  | EndsInApplicationYear
   | RejectedAtInitialReview
   | Completed
 

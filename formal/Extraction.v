@@ -30,7 +30,7 @@ Extract Inductive 项目角色 => "Domain_types.project_role"
   [ "Domain_types.Applicant" "Domain_types.Principal" "Domain_types.Participant"
     "Domain_types.TaskPrincipal" "Domain_types.AcademicLeader" "Domain_types.KeyMember" ].
 Extract Inductive 项目状态 => "Domain_types.project_status"
-  [ "Domain_types.Applying" "Domain_types.Active" "Domain_types.EndsInApplicationYear"
+  [ "Domain_types.Applying" "Domain_types.Active"
     "Domain_types.RejectedAtInitialReview" "Domain_types.Completed" ].
 Extract Inductive 违规原因 => "Domain_types.violation"
   [ "Domain_types.SameTypeApplicationLimit" "Domain_types.SeniorTotalLimit"

@@ -15,6 +15,6 @@ interface KernelResult {
 
 interface Window {
   GrantLimitKernel?: {
-    check(title: number, candidate: string, existing: string): string;
+    check(title: number, applicationYear: number, candidate: string, existing: string): string;
   };
 }

@@ -12,7 +12,8 @@ type ProjectInput = {
   tag: number;
   role: number;
   status: number;
-  year: number;
+  startYear: number;
+  endYear: number;
   directCost: number;
   titleAtApproval: number;
 };
@@ -63,10 +64,9 @@ const roles: Option[] = [
 
 const statuses: Option[] = [
   { value: 0, label: "申请中", help: "本年度已经提交或拟同时提交的项目。" },
-  { value: 1, label: "正在承担", help: "资助期覆盖申请年度，且不在申请当年期满。" },
-  { value: 2, label: "申请当年期满", help: "当前已形式化的规则中不计入申请和承担项目数量。" },
-  { value: 3, label: "初审不予受理", help: "不计入当前申请和承担项目数量。" },
-  { value: 4, label: "已经结题", help: "不计入当前申请和承担项目数量。" }
+  { value: 1, label: "正在承担", help: "是否仍处于执行期由结束年度与本次申请年度比较得出。" },
+  { value: 2, label: "初审不予受理", help: "不计入当前申请和承担项目数量。" },
+  { value: 3, label: "已经结题", help: "已经完成结题，不计入当前申请和承担项目数量。" }
 ];
 
 const titles: Option[] = [
@@ -92,7 +92,7 @@ const modelFiles = [
 ];
 
 const currentYear = 2026;
-const years = Array.from({ length: 17 }, (_, index) => currentYear - index);
+const years = Array.from({ length: 27 }, (_, index) => 2036 - index);
 let projects: ProjectInput[] = [];
 const app = document.querySelector<HTMLDivElement>("#app");
 if (!app) throw new Error("Missing app container");
@@ -107,7 +107,7 @@ app.innerHTML = `
     <section id="tools" class="view-switch" aria-label="选择工具" role="tablist"><button id="show-checker" class="view-tab active" type="button" role="tab" aria-selected="true" aria-controls="checker-view"><span>01</span>限项检查器</button><button id="show-model" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="model-view"><span>02</span>形式化模型</button></section>
     <div id="checker-view" class="view-panel" role="tabpanel" aria-labelledby="show-checker">
       <section id="checker" class="checker" aria-labelledby="checker-title"><div class="section-heading"><div><span class="step">01</span><h2 id="checker-title">个人情况</h2></div></div><div class="field-grid single">${selectField("current-title", "当前专业技术职务", titles, 0, "职称会影响部分项目数量上限。")}</div>
-        <div class="section-heading subsection"><div><span class="step">02</span><h2>拟申请或拟参与项目</h2></div></div><div id="candidate" class="field-grid">${selectField("candidate-agency", "主管部门 / 计划体系", agencies, 0, "先选择主管部门，再选择对应项目类别。")}${selectField("candidate-kind", "项目类型", kindsForAgency(0), 0, "项目类型决定适用规则。")}${selectField("candidate-tag", "项目标识", tags, 0, "青年科学家等标识会影响联合限项。")}${selectField("candidate-role", "你的角色", roles, 0, "项目负责人、课题负责人等角色适用范围不同。")}${yearField("candidate-year", "申请年度", currentYear, "当前规则集固定为 2026 年。", true)}${numberField("candidate-cost", "直接费用（万元）", 0, "组织间国际合作项目以超过 200 万元为计数边界。")}</div>
+        <div class="section-heading subsection"><div><span class="step">02</span><h2>拟申请或拟参与项目</h2></div></div><div id="candidate" class="field-grid">${selectField("candidate-agency", "主管部门 / 计划体系", agencies, 0, "先选择主管部门，再选择对应项目类别。")}${selectField("candidate-kind", "项目类型", kindsForAgency(0), 0, "项目类型决定适用规则。")}${selectField("candidate-tag", "项目标识", tags, 0, "青年科学家等标识会影响联合限项。")}${selectField("candidate-role", "你的角色", roles, 0, "项目负责人、课题负责人等角色适用范围不同。")}${yearField("candidate-year", "申请年度", currentYear, "本次检查使用的申请年度；与项目开始年度相互独立。", true)}${yearField("candidate-start", "预计开始年度", 2027, "申请年度为 2026 时，项目可能从 2026 或 2027 年开始。")}${yearField("candidate-end", "预计结束年度", 2029, "请填写预计执行期结束年度；开始年度不能推导结束年度。", false, 2027)}${numberField("candidate-cost", "直接费用（万元）", 0, "组织间国际合作项目以超过 200 万元为计数边界。")}</div>
         <div class="section-heading subsection"><div><span class="step">03</span><h2>已有或同时申请的项目</h2></div><button id="add-project" class="button secondary" type="button">＋ 添加项目</button></div><div id="project-list" class="project-list"></div><div id="empty-state" class="empty-state">尚未添加已有项目，可以直接检查。</div><div class="actions"><button id="run-check" class="button primary" type="button">运行形式化检查 <span>⌘↵</span></button><span id="kernel-status" class="kernel-status">正在加载 OCaml 内核…</span></div>
       </section><section id="result" class="result hidden" aria-live="polite"></section>
       <section id="sources" class="sources"><div class="section-heading"><div><span class="step">04</span><h2>规则来源与覆盖范围</h2></div></div><div class="source-grid"><article><h3>国家自然科学基金</h3><p>《2026 年度国家自然科学基金项目指南——申请规定》</p><a href="${nsfcSource}" target="_blank" rel="noreferrer">查看基金委 PDF ↗</a></article><article><h3>国家科技计划联合限项</h3><p>跨部门联合限项措施，国科办资〔2022〕107 号。</p><a href="${jointSource}" target="_blank" rel="noreferrer">查看科技部文件 ↗</a></article><article><h3>发现问题？</h3><p>提交正式来源、规则纠错或匿名化反例，帮助完善形式化模型。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/issues/new?template=rule-report.yml" target="_blank" rel="noreferrer">提交规则 Issue ↗</a></article></div></section>
@@ -119,7 +119,7 @@ function info(help: string, id?: string): string { return `<span class="info" ta
 function kindsForAgency(agency: number): KindOption[] { return kinds.filter((item) => item.agency === agency); }
 function options(values: Option[], selected: number): string { return values.map((item) => `<option value="${item.value}" ${item.value === selected ? "selected" : ""}>${item.label}</option>`).join(""); }
 function selectField(id: string, label: string, values: Option[], selected: number, help: string): string { const selectedHelp = values.find((item) => item.value === selected)?.help ?? help; return `<label class="field"><span>${label} ${info(selectedHelp, `${id}-help`)}</span><select id="${id}" aria-describedby="${id}-help">${options(values, selected)}</select></label>`; }
-function yearField(id: string, label: string, selected: number, help: string, fixed = false): string { const availableYears = fixed ? [2026] : years; return `<label class="field"><span>${label} ${info(help)}</span><select id="${id}">${availableYears.map((year) => `<option value="${year}" ${year === selected ? "selected" : ""}>${year} 年</option>`).join("")}</select></label>`; }
+function yearField(id: string, label: string, selected: number, help: string, fixed = false, minimum = 0): string { const availableYears = fixed ? [2026] : years.filter((year) => year >= minimum); return `<label class="field"><span>${label} ${info(help)}</span><select id="${id}">${availableYears.map((year) => `<option value="${year}" ${year === selected ? "selected" : ""}>${year} 年</option>`).join("")}</select></label>`; }
 function numberField(id: string, label: string, value: number, help: string): string { return `<label class="field"><span>${label} ${info(help, `${id}-help`)}</span><input id="${id}" type="number" inputmode="numeric" min="0" max="100000" step="1" value="${value}" aria-describedby="${id}-help"></label>`; }
 function updateHelp(select: HTMLSelectElement, values: Option[]): void {
   const help = document.querySelector<HTMLElement>(`#${select.id}-help`);
@@ -133,7 +133,7 @@ function bindHelp(id: string, values: Option[]): void { const select = document.
 function selectNumber(id: string, fallback: number): number { const value = Number(document.querySelector<HTMLInputElement | HTMLSelectElement>(`#${id}`)?.value ?? fallback); return Number.isFinite(value) && value >= 0 ? Math.trunc(value) : fallback; }
 
 function projectCard(project: ProjectInput, index: number): string {
-  return `<article class="project-card" data-index="${index}"><div class="project-card-header"><h3>项目 ${index + 1}</h3><button class="remove-project" data-index="${index}" type="button" aria-label="删除项目 ${index + 1}">删除</button></div><div class="field-grid project-fields">${selectField(`agency-${index}`, "主管部门 / 计划体系", agencies, project.agency, "先选择主管部门。")}${selectField(`kind-${index}`, "项目类型", kindsForAgency(project.agency), project.kind, "请选择对应计划体系中的项目类别。")}${selectField(`tag-${index}`, "项目标识", tags, project.tag, "青年科学家等标识影响联合限项。")}${selectField(`role-${index}`, "你的角色", roles, project.role, "选择你在该项目中的身份。")}${selectField(`status-${index}`, "项目状态", statuses, project.status, "状态决定项目是否进入当前计数。")}${yearField(`year-${index}`, "批准 / 申请年度", project.year, "主要参与者项目在 2020 和 2023 年有计数分界。")}${numberField(`cost-${index}`, "直接费用（万元）", project.directCost, "组织间国际合作项目以超过 200 万元为边界。")}${selectField(`title-${index}`, "当时职称", titles, project.titleAtApproval, "用于处理晋升高级职称后的参与项目例外。")}</div></article>`;
+  return `<article class="project-card" data-index="${index}"><div class="project-card-header"><h3>项目 ${index + 1}</h3><button class="remove-project" data-index="${index}" type="button" aria-label="删除项目 ${index + 1}">删除</button></div><div class="field-grid project-fields">${selectField(`agency-${index}`, "主管部门 / 计划体系", agencies, project.agency, "先选择主管部门。")}${selectField(`kind-${index}`, "项目类型", kindsForAgency(project.agency), project.kind, "请选择对应计划体系中的项目类别。")}${selectField(`tag-${index}`, "项目标识", tags, project.tag, "青年科学家等标识影响联合限项。")}${selectField(`role-${index}`, "你的角色", roles, project.role, "选择你在该项目中的身份。")}${selectField(`status-${index}`, "项目状态", statuses, project.status, "状态描述行政事实；是否在申请年度计数由结束年度计算。")}${yearField(`start-${index}`, "批准 / 开始年度", project.startYear, "批准或开始年度用于 2020、2023 等计数分界。")}${yearField(`end-${index}`, "执行期结束年度", project.endYear, "填写包括获批延期后的执行期结束年度。申请当年期满由内核自动判断。", false, project.startYear)}${numberField(`cost-${index}`, "直接费用（万元）", project.directCost, "组织间国际合作项目以超过 200 万元为边界。")}${selectField(`title-${index}`, "批准时职称", titles, project.titleAtApproval, "用于处理晋升高级职称后的参与项目例外。")}</div></article>`;
 }
 
 function renderProjects(): void {
@@ -142,19 +142,21 @@ function renderProjects(): void {
   projects.forEach((_, index) => {
     bindHelp(`agency-${index}`, agencies); bindHelp(`kind-${index}`, kinds); bindHelp(`tag-${index}`, tags); bindHelp(`role-${index}`, roles); bindHelp(`status-${index}`, statuses); bindHelp(`title-${index}`, titles);
     document.querySelector<HTMLSelectElement>(`#agency-${index}`)?.addEventListener("change", (event) => { collectProjects(); const agency = Number((event.currentTarget as HTMLSelectElement).value); projects[index].agency = agency; projects[index].kind = kindsForAgency(agency)[0].value; renderProjects(); });
+    document.querySelector<HTMLSelectElement>(`#start-${index}`)?.addEventListener("change", () => { collectProjects(); projects[index].endYear = Math.max(projects[index].startYear, projects[index].endYear); renderProjects(); });
   });
   list.querySelectorAll<HTMLButtonElement>(".remove-project").forEach((button) => button.addEventListener("click", () => { collectProjects(); projects.splice(Number(button.dataset.index), 1); renderProjects(); }));
 }
 
-function collectProjects(): void { projects = projects.map((project, index) => ({ agency: selectNumber(`agency-${index}`, project.agency), kind: selectNumber(`kind-${index}`, project.kind), tag: selectNumber(`tag-${index}`, project.tag), role: selectNumber(`role-${index}`, project.role), status: selectNumber(`status-${index}`, project.status), year: selectNumber(`year-${index}`, project.year), directCost: selectNumber(`cost-${index}`, project.directCost), titleAtApproval: selectNumber(`title-${index}`, project.titleAtApproval) })); }
-function encode(project: ProjectInput): string { return [project.kind, project.tag, project.role, project.status, project.year, project.directCost, project.titleAtApproval].join(","); }
+function collectProjects(): void { projects = projects.map((project, index) => ({ agency: selectNumber(`agency-${index}`, project.agency), kind: selectNumber(`kind-${index}`, project.kind), tag: selectNumber(`tag-${index}`, project.tag), role: selectNumber(`role-${index}`, project.role), status: selectNumber(`status-${index}`, project.status), startYear: selectNumber(`start-${index}`, project.startYear), endYear: selectNumber(`end-${index}`, project.endYear), directCost: selectNumber(`cost-${index}`, project.directCost), titleAtApproval: selectNumber(`title-${index}`, project.titleAtApproval) })); }
+function encode(project: ProjectInput): string { return [project.kind, project.tag, project.role, project.status, project.startYear, project.endYear, project.directCost, project.titleAtApproval].join(","); }
 
 function runCheck(): void {
   collectProjects(); const title = selectNumber("current-title", 0);
-  const candidate: ProjectInput = { agency: selectNumber("candidate-agency", 0), kind: selectNumber("candidate-kind", 0), tag: selectNumber("candidate-tag", 0), role: selectNumber("candidate-role", 0), status: 0, year: 2026, directCost: selectNumber("candidate-cost", 0), titleAtApproval: title };
+  const applicationYear = selectNumber("candidate-year", currentYear);
+  const candidate: ProjectInput = { agency: selectNumber("candidate-agency", 0), kind: selectNumber("candidate-kind", 0), tag: selectNumber("candidate-tag", 0), role: selectNumber("candidate-role", 0), status: 0, startYear: selectNumber("candidate-start", 2027), endYear: selectNumber("candidate-end", 2029), directCost: selectNumber("candidate-cost", 0), titleAtApproval: title };
   const resultElement = document.querySelector<HTMLElement>("#result"); if (!resultElement) return;
   if (!window.GrantLimitKernel) { resultElement.classList.remove("hidden"); resultElement.innerHTML = `<div class="verdict invalid"><span>!</span><div><p>内核未加载</p><h2>无法运行检查</h2></div></div>`; return; }
-  const result = JSON.parse(window.GrantLimitKernel.check(title, encode(candidate), projects.map(encode).join(";"))) as KernelResult; renderResult(result, title);
+  const result = JSON.parse(window.GrantLimitKernel.check(title, applicationYear, encode(candidate), projects.map(encode).join(";"))) as KernelResult; renderResult(result, title);
 }
 
 function renderResult(result: KernelResult, title: number): void {
@@ -177,11 +179,12 @@ function showModelFile(id: string): void {
   document.querySelectorAll<HTMLButtonElement>(".file-tab").forEach((button) => button.classList.toggle("active", button.dataset.file === file.id));
 }
 
-document.querySelector<HTMLButtonElement>("#add-project")?.addEventListener("click", () => { collectProjects(); projects.push({ agency: 0, kind: 0, tag: 0, role: 1, status: 1, year: 2025, directCost: 0, titleAtApproval: selectNumber("current-title", 0) }); renderProjects(); });
+document.querySelector<HTMLButtonElement>("#add-project")?.addEventListener("click", () => { collectProjects(); projects.push({ agency: 0, kind: 0, tag: 0, role: 1, status: 1, startYear: 2025, endYear: 2028, directCost: 0, titleAtApproval: selectNumber("current-title", 0) }); renderProjects(); });
 document.querySelector<HTMLButtonElement>("#run-check")?.addEventListener("click", runCheck);
 document.querySelector<HTMLButtonElement>("#show-checker")?.addEventListener("click", () => showView("checker")); document.querySelector<HTMLButtonElement>("#show-model")?.addEventListener("click", () => showView("model"));
 document.querySelectorAll<HTMLButtonElement>(".file-tab").forEach((button) => button.addEventListener("click", () => showModelFile(button.dataset.file ?? "model")));
 document.querySelector<HTMLSelectElement>("#candidate-agency")?.addEventListener("change", (event) => { const agency = Number((event.currentTarget as HTMLSelectElement).value); const select = document.querySelector<HTMLSelectElement>("#candidate-kind"); if (select) { const available = kindsForAgency(agency); select.innerHTML = options(available, available[0].value); updateHelp(select, available); } });
+document.querySelector<HTMLSelectElement>("#candidate-start")?.addEventListener("change", (event) => { const start = Number((event.currentTarget as HTMLSelectElement).value); const end = document.querySelector<HTMLSelectElement>("#candidate-end"); if (end) { const selected = Math.max(start, Number(end.value)); end.innerHTML = years.filter((year) => year >= start).map((year) => `<option value="${year}" ${year === selected ? "selected" : ""}>${year} 年</option>`).join(""); } });
 document.addEventListener("keydown", (event) => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") runCheck(); });
 bindHelp("candidate-agency", agencies); bindHelp("candidate-kind", kinds); bindHelp("candidate-tag", tags); bindHelp("candidate-role", roles); bindHelp("current-title", titles); renderProjects(); showModelFile("model");
 const kernelStatus = document.querySelector<HTMLElement>("#kernel-status"); if (kernelStatus) { kernelStatus.textContent = window.GrantLimitKernel ? "● OCaml 内核已加载" : "○ OCaml 内核加载失败"; kernelStatus.classList.toggle("ready", Boolean(window.GrantLimitKernel)); }

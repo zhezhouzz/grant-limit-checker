@@ -22,7 +22,7 @@ type project = { kind : Domain_types.project_kind;
                  tag : Domain_types.project_tag;
                  role : Domain_types.project_role;
                  status : Domain_types.project_status; approval_year : 
-                 int; direct_cost_wan : int;
+                 int; end_year : int; direct_cost_wan : int;
                  title_at_approval : Domain_types.professional_title }
 
 type profile =
@@ -57,6 +57,12 @@ let _UU9879__UU76ee__UU72b6__UU6001__UU503c_ p =
 
 let _UU6279__UU51c6__UU5e74__UU4efd_ p =
   p.approval_year
+
+(** val _UU6267__UU884c__UU671f__UU7ed3__UU675f__UU5e74__UU4efd_ :
+    project -> int **)
+
+let _UU6267__UU884c__UU671f__UU7ed3__UU675f__UU5e74__UU4efd_ p =
+  p.end_year
 
 (** val _UU76f4__UU63a5__UU8d39__UU7528__UU4e07__UU5143_ : project -> int **)
 
@@ -263,6 +269,14 @@ let _UU8d39__UU7528__UU8d85__UU8fc7_200_UU4e07__UU5143_ _UU5f85__UU5224__UU65ad_
     (_UU76f4__UU63a5__UU8d39__UU7528__UU4e07__UU5143_
       _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
 
+(** val _UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_ :
+    int -> project -> bool **)
+
+let _UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
+  Nat.ltb _UU7533__UU8bf7__UU5e74__UU5ea6_
+    (_UU6267__UU884c__UU671f__UU7ed3__UU675f__UU5e74__UU4efd_
+      _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
+
 (** val _UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_ :
     project -> bool **)
 
@@ -281,16 +295,6 @@ let _UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_ _UU5f85__UU
   | Domain_types.NationalMajorProgram -> false
   | _ -> true
 
-(** val _UU72b6__UU6001__UU5c5e__UU4e8e__UU7533__UU8bf7__UU6216__UU5728__UU7814_ :
-    project -> bool **)
-
-let _UU72b6__UU6001__UU5c5e__UU4e8e__UU7533__UU8bf7__UU6216__UU5728__UU7814_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
-  match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
-          _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
-  | Domain_types.Applying -> true
-  | Domain_types.Active -> true
-  | _ -> false
-
 (** val _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_ :
     profile -> project -> bool **)
 
@@ -307,18 +311,21 @@ let _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_ _UU
     _UU6279__UU51c6__UU5e74__UU4efd__UU4e0d__UU65e9__UU4e8e_2023
       _UU5f85__UU5224__UU65ad__UU9879__UU76ee_
 
-(** val _UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_ :
-    profile -> project -> bool **)
+(** val _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_ :
+    profile -> int -> project -> bool **)
 
-let _UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_ _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
+let _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
   (&&)
-    ((&&)
-      (_UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_
-        _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-      (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
-               _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
-       | Domain_types.Applying -> true
-       | Domain_types.Active ->
+    (_UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_
+      _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
+    (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
+             _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
+     | Domain_types.Applying -> true
+     | Domain_types.Active ->
+       (&&)
+         (_UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_
+           _UU7533__UU8bf7__UU5e74__UU5ea6_
+           _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
          (match _UU9879__UU76ee__UU89d2__UU8272__UU503c_
                   _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
           | Domain_types.Applicant -> true
@@ -326,31 +333,28 @@ let _UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_ _UU4eba__UU
           | _ ->
             _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_
               _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-       | _ -> false))
+     | _ -> false)
+
+(** val _UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_ :
+    profile -> int -> project -> bool **)
+
+let _UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
+  (&&)
+    (_UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_
+      _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+      _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
     (_UU662f__UU8d1f__UU8d23__UU4eba_
       (_UU9879__UU76ee__UU89d2__UU8272__UU503c_
         _UU5f85__UU5224__UU65ad__UU9879__UU76ee_))
 
 (** val _UU5e94__UU8ba1__UU5165__UU53c2__UU4e0e__UU8005__UU603b__UU6570_ :
-    profile -> project -> bool **)
+    profile -> int -> project -> bool **)
 
-let _UU5e94__UU8ba1__UU5165__UU53c2__UU4e0e__UU8005__UU603b__UU6570_ _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
+let _UU5e94__UU8ba1__UU5165__UU53c2__UU4e0e__UU8005__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
   (&&)
-    ((&&)
-      (_UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_
-        _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-      (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
-               _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
-       | Domain_types.Applying -> true
-       | Domain_types.Active ->
-         (match _UU9879__UU76ee__UU89d2__UU8272__UU503c_
-                  _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
-          | Domain_types.Applicant -> true
-          | Domain_types.Principal -> true
-          | _ ->
-            _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_
-              _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-       | _ -> false))
+    (_UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_
+      _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+      _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
     (_UU662f__UU53c2__UU4e0e__UU8005_
       (_UU9879__UU76ee__UU89d2__UU8272__UU503c_
         _UU5f85__UU5224__UU65ad__UU9879__UU76ee_))
@@ -380,71 +384,47 @@ let _UU540c__UU7c7b__UU7533__UU8bf7__UU603b__UU6570_ _UU62df__UU7533__UU62a5__UU
     (Stdlib.Int.succ 0)
 
 (** val _UU9879__UU76ee__UU603b__UU6570_ :
-    profile -> project -> project list -> int **)
+    profile -> int -> project -> project list -> int **)
 
-let _UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   add
     (_UU6309__UU6761__UU4ef6__UU8ba1__UU6570_
-      (fun _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ ->
-      (&&)
-        (_UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_
-          _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-        (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
-                 _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
-         | Domain_types.Applying -> true
-         | Domain_types.Active ->
-           (match _UU9879__UU76ee__UU89d2__UU8272__UU503c_
-                    _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
-            | Domain_types.Applicant -> true
-            | Domain_types.Principal -> true
-            | _ ->
-              _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_
-                _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-         | _ -> false))
+      (_UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_
+        _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_)
       _UU5df2__UU6709__UU9879__UU76ee_)
-    (if (&&)
-          (_UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_
-            _UU62df__UU7533__UU62a5__UU9879__UU76ee_)
-          (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
-                   _UU62df__UU7533__UU62a5__UU9879__UU76ee_ with
-           | Domain_types.Applying -> true
-           | Domain_types.Active ->
-             (match _UU9879__UU76ee__UU89d2__UU8272__UU503c_
-                      _UU62df__UU7533__UU62a5__UU9879__UU76ee_ with
-              | Domain_types.Applicant -> true
-              | Domain_types.Principal -> true
-              | _ ->
-                _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_
-                  _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_)
-           | _ -> false)
+    (if _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_
+          _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+          _UU62df__UU7533__UU62a5__UU9879__UU76ee_
      then Stdlib.Int.succ 0
      else 0)
 
 (** val _UU8d1f__UU8d23__UU4eba__UU9879__UU76ee__UU603b__UU6570_ :
-    profile -> project -> project list -> int **)
+    profile -> int -> project -> project list -> int **)
 
-let _UU8d1f__UU8d23__UU4eba__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU8d1f__UU8d23__UU4eba__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   add
     (_UU6309__UU6761__UU4ef6__UU8ba1__UU6570_
       (_UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_
-        _UU4eba__UU5458_)
+        _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_)
       _UU5df2__UU6709__UU9879__UU76ee_)
     (if _UU5e94__UU8ba1__UU5165__UU8d1f__UU8d23__UU4eba__UU603b__UU6570_
-          _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+          _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+          _UU62df__UU7533__UU62a5__UU9879__UU76ee_
      then Stdlib.Int.succ 0
      else 0)
 
 (** val _UU53c2__UU4e0e__UU8005__UU9879__UU76ee__UU603b__UU6570_ :
-    profile -> project -> project list -> int **)
+    profile -> int -> project -> project list -> int **)
 
-let _UU53c2__UU4e0e__UU8005__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU53c2__UU4e0e__UU8005__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   add
     (_UU6309__UU6761__UU4ef6__UU8ba1__UU6570_
       (_UU5e94__UU8ba1__UU5165__UU53c2__UU4e0e__UU8005__UU603b__UU6570_
-        _UU4eba__UU5458_)
+        _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_)
       _UU5df2__UU6709__UU9879__UU76ee_)
     (if _UU5e94__UU8ba1__UU5165__UU53c2__UU4e0e__UU8005__UU603b__UU6570_
-          _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+          _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+          _UU62df__UU7533__UU62a5__UU9879__UU76ee_
      then Stdlib.Int.succ 0
      else 0)
 
@@ -514,40 +494,50 @@ let _UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5
           _UU5f85__UU5224__UU65ad__UU9879__UU76ee_))
   | _ -> false
 
-(** val _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU8054__UU5408__UU9650__UU9879_ :
-    profile -> project -> bool **)
-
-let _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU8054__UU5408__UU9650__UU9879_ _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
-  (&&)
-    (_UU72b6__UU6001__UU5c5e__UU4e8e__UU7533__UU8bf7__UU6216__UU5728__UU7814_
-      _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-    (_UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5339__UU914d_
-      _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
-
 (** val _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_ :
-    profile -> project -> project list -> int **)
+    profile -> int -> project -> project list -> int **)
 
-let _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   add
     (_UU6309__UU6761__UU4ef6__UU8ba1__UU6570_
-      (_UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU8054__UU5408__UU9650__UU9879_
-        _UU4eba__UU5458_)
+      (fun _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ ->
+      (&&)
+        (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
+                 _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
+         | Domain_types.Applying -> true
+         | Domain_types.Active ->
+           _UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_
+             _UU7533__UU8bf7__UU5e74__UU5ea6_
+             _UU5f85__UU5224__UU65ad__UU9879__UU76ee_
+         | _ -> false)
+        (_UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5339__UU914d_
+          _UU4eba__UU5458_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_))
       _UU5df2__UU6709__UU9879__UU76ee_)
-    (if _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU8054__UU5408__UU9650__UU9879_
-          _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+    (if (&&)
+          (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
+                   _UU62df__UU7533__UU62a5__UU9879__UU76ee_ with
+           | Domain_types.Applying -> true
+           | Domain_types.Active ->
+             _UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_
+               _UU7533__UU8bf7__UU5e74__UU5ea6_
+               _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+           | _ -> false)
+          (_UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5339__UU914d_
+            _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_)
      then Stdlib.Int.succ 0
      else 0)
 
 (** val _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ :
-    profile -> project -> project list -> Domain_types.violation list **)
+    profile -> int -> project -> project list -> Domain_types.violation list **)
 
-let _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   if _UU5c5e__UU4e8e__UU57fa__UU91d1__UU59d4__UU9879__UU76ee_
        _UU62df__UU7533__UU62a5__UU9879__UU76ee_
   then (match _UU5f53__UU524d__UU804c__UU79f0_ _UU4eba__UU5458_ with
         | Domain_types.Senior ->
           if (<=)
                (_UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU5458_
+                 _UU7533__UU8bf7__UU5e74__UU5ea6_
                  _UU62df__UU7533__UU62a5__UU9879__UU76ee_
                  _UU5df2__UU6709__UU9879__UU76ee_)
                (Stdlib.Int.succ (Stdlib.Int.succ 0))
@@ -557,14 +547,16 @@ let _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ _UU
           app
             (if (<=)
                   (_UU8d1f__UU8d23__UU4eba__UU9879__UU76ee__UU603b__UU6570_
-                    _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+                    _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+                    _UU62df__UU7533__UU62a5__UU9879__UU76ee_
                     _UU5df2__UU6709__UU9879__UU76ee_)
                   (Stdlib.Int.succ 0)
              then []
              else Domain_types.NonSeniorLeaderLimit :: [])
             (if (<=)
                   (_UU53c2__UU4e0e__UU8005__UU9879__UU76ee__UU603b__UU6570_
-                    _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+                    _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+                    _UU62df__UU7533__UU62a5__UU9879__UU76ee_
                     _UU5df2__UU6709__UU9879__UU76ee_)
                   (Stdlib.Int.succ (Stdlib.Int.succ 0))
              then []
@@ -572,14 +564,24 @@ let _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ _UU
   else []
 
 (** val _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ :
-    profile -> project -> project list -> Domain_types.violation list **)
+    profile -> int -> project -> project list -> Domain_types.violation list **)
 
-let _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
-  if _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU8054__UU5408__UU9650__UU9879_
-       _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+let _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+  if (&&)
+       (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
+                _UU62df__UU7533__UU62a5__UU9879__UU76ee_ with
+        | Domain_types.Applying -> true
+        | Domain_types.Active ->
+          _UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_
+            _UU7533__UU8bf7__UU5e74__UU5ea6_
+            _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+        | _ -> false)
+       (_UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5339__UU914d_
+         _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_)
   then if (<=)
             (_UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_
-              _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+              _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+              _UU62df__UU7533__UU62a5__UU9879__UU76ee_
               _UU5df2__UU6709__UU9879__UU76ee_)
             (Stdlib.Int.succ (Stdlib.Int.succ 0))
        then []
@@ -587,9 +589,9 @@ let _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU
   else []
 
 (** val _UU8fdd__UU89c4__UU5217__UU8868_ :
-    profile -> project -> project list -> Domain_types.violation list **)
+    profile -> int -> project -> project list -> Domain_types.violation list **)
 
-let _UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   app
     (if _UU5c5e__UU4e8e__UU57fa__UU91d1__UU59d4__UU9879__UU76ee_
           _UU62df__UU7533__UU62a5__UU9879__UU76ee_
@@ -603,17 +605,20 @@ let _UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__U
      else [])
     (app
       (_UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_
-        _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+        _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+        _UU62df__UU7533__UU62a5__UU9879__UU76ee_
         _UU5df2__UU6709__UU9879__UU76ee_)
       (_UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_
-        _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+        _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+        _UU62df__UU7533__UU62a5__UU9879__UU76ee_
         _UU5df2__UU6709__UU9879__UU76ee_))
 
 (** val _UU68c0__UU67e5_ :
-    profile -> project -> project list -> Domain_types.decision **)
+    profile -> int -> project -> project list -> Domain_types.decision **)
 
-let _UU68c0__UU67e5_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+let _UU68c0__UU67e5_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
   match _UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_
+          _UU7533__UU8bf7__UU5e74__UU5ea6_
           _UU62df__UU7533__UU62a5__UU9879__UU76ee_
           _UU5df2__UU6709__UU9879__UU76ee_ with
   | [] -> Domain_types.Allowed
@@ -624,34 +629,35 @@ let _UU68c0__UU67e5_ _UU4eba__UU5458_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _
 let same_type_application_count =
   _UU540c__UU7c7b__UU7533__UU8bf7__UU603b__UU6570_
 
-(** val total_count : profile -> project -> project list -> int **)
+(** val total_count : profile -> int -> project -> project list -> int **)
 
 let total_count =
   _UU9879__UU76ee__UU603b__UU6570_
 
-(** val leader_count : profile -> project -> project list -> int **)
+(** val leader_count : profile -> int -> project -> project list -> int **)
 
 let leader_count =
   _UU8d1f__UU8d23__UU4eba__UU9879__UU76ee__UU603b__UU6570_
 
-(** val participant_count : profile -> project -> project list -> int **)
+(** val participant_count :
+    profile -> int -> project -> project list -> int **)
 
 let participant_count =
   _UU53c2__UU4e0e__UU8005__UU9879__UU76ee__UU603b__UU6570_
 
-(** val joint_count : profile -> project -> project list -> int **)
+(** val joint_count : profile -> int -> project -> project list -> int **)
 
 let joint_count =
   _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_
 
 (** val violations :
-    profile -> project -> project list -> Domain_types.violation list **)
+    profile -> int -> project -> project list -> Domain_types.violation list **)
 
 let violations =
   _UU8fdd__UU89c4__UU5217__UU8868_
 
 (** val check :
-    profile -> project -> project list -> Domain_types.decision **)
+    profile -> int -> project -> project list -> Domain_types.decision **)
 
 let check =
   _UU68c0__UU67e5_

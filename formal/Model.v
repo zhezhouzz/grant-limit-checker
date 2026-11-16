@@ -37,7 +37,6 @@ Inductive 项目角色 : Type :=
 Inductive 项目状态 : Type :=
 | 申请中
 | 正在承担
-| 申请当年期满
 | 初审不予受理
 | 已经结题.
 
@@ -48,13 +47,15 @@ Inductive 项目标识 : Type :=
 | 国际合作类标识
 | 部门推荐标识.
 
-(** 项目的原始事实。年份和金额保留为数值，由具体年度规则定义阈值谓词。 *)
+(** 项目的原始事实。申请年度属于检查上下文；这里分别保留批准/开始年度和
+    执行期结束年度（含获批延期），由具体年度规则定义时间谓词。 *)
 Record project : Type := mkProject {
   kind : 项目类别;
   tag : 项目标识;
   role : 项目角色;
   status : 项目状态;
   approval_year : nat;
+  end_year : nat;
   direct_cost_wan : nat;
   title_at_approval : 专业技术职称
 }.
@@ -71,6 +72,7 @@ Definition 项目标识值 := tag.
 Definition 项目角色值 := role.
 Definition 项目状态值 := status.
 Definition 批准年份 := approval_year.
+Definition 执行期结束年份 := end_year.
 Definition 直接费用万元 := direct_cost_wan.
 Definition 批准时职称 := title_at_approval.
 Definition 当前职称 := current_title.
