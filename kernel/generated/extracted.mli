@@ -1,4 +1,6 @@
 
+val negb : bool -> bool
+
 val app : 'a1 list -> 'a1 list -> 'a1 list
 
 val add : int -> int -> int
@@ -10,16 +12,21 @@ module Nat :
 
 val existsb : ('a1 -> bool) -> 'a1 list -> bool
 
-type project = { kind : Domain_types.project_kind;
+type project = { guide : Domain_types.guide_version;
+                 kind : Domain_types.project_kind;
                  tag : Domain_types.project_tag;
                  role : Domain_types.project_role;
                  status : Domain_types.project_status; approval_year : 
-                 int; end_year : int; direct_cost_wan : int;
+                 int; end_year : int; end_month : int; end_day : int;
+                 direct_cost_wan : int; central_budget_wan : int;
                  title_at_approval : Domain_types.professional_title }
 
 type profile =
   Domain_types.professional_title
   (* singleton inductive, whose constructor was mkProfile *)
+
+val _UU6307__UU5357__UU7248__UU672c__UU503c_ :
+  project -> Domain_types.guide_version
 
 val _UU9879__UU76ee__UU7c7b__UU522b__UU503c_ :
   project -> Domain_types.project_kind
@@ -37,7 +44,14 @@ val _UU6279__UU51c6__UU5e74__UU4efd_ : project -> int
 
 val _UU6267__UU884c__UU671f__UU7ed3__UU675f__UU5e74__UU4efd_ : project -> int
 
+val _UU6267__UU884c__UU671f__UU7ed3__UU675f__UU6708__UU4efd_ : project -> int
+
+val _UU6267__UU884c__UU671f__UU7ed3__UU675f__UU65e5_ : project -> int
+
 val _UU76f4__UU63a5__UU8d39__UU7528__UU4e07__UU5143_ : project -> int
+
+val _UU4e2d__UU592e__UU8d22__UU653f__UU4e13__UU9879__UU8d44__UU91d1__UU9884__UU7b97__UU4e07__UU5143_ :
+  project -> int
 
 val _UU6279__UU51c6__UU65f6__UU804c__UU79f0_ :
   project -> Domain_types.professional_title
@@ -55,24 +69,26 @@ val _UU662f__UU8d1f__UU8d23__UU4eba_ : Domain_types.project_role -> bool
 val _UU662f__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU89d2__UU8272_ :
   Domain_types.project_role -> bool
 
-val _UU662f__UU53c2__UU4e0e__UU8005_ : Domain_types.project_role -> bool
-
 val _UU662f__UU9879__UU76ee__UU6216__UU8bfe__UU9898__UU8d1f__UU8d23__UU4eba_ :
+  Domain_types.project_role -> bool
+
+val _UU662f__UU4e3b__UU8981__UU53c2__UU4e0e__UU8005_ :
   Domain_types.project_role -> bool
 
 val _UU662f__UU5b66__UU672f__UU5e26__UU5934__UU4eba__UU6216__UU9aa8__UU5e72__UU6210__UU5458_ :
   Domain_types.project_role -> bool
 
-val _UU5c5e__UU4e8e__UU57fa__UU91d1__UU59d4__UU9879__UU76ee_ : project -> bool
-
-val _UU540c__UU7c7b__UU7533__UU8bf7__UU5e94__UU8ba1__UU6570_ :
-  project -> project -> bool
-
 val _UU5e74__UU4efd__UU9608__UU503c_2020 : int
 
 val _UU5e74__UU4efd__UU9608__UU503c_2023 : int
 
+val _UU5e74__UU4efd__UU9608__UU503c_2024 : int
+
 val _UU8d39__UU7528__UU9608__UU503c_200_UU4e07__UU5143_ : int
+
+val _UU9884__UU7b97__UU9608__UU503c_400_UU4e07__UU5143_ : int
+
+val _UU65e5__UU671f__UU65e9__UU4e8e_ : int -> int -> int -> project -> bool
 
 val _UU6279__UU51c6__UU5e74__UU4efd__UU4e0d__UU65e9__UU4e8e_2020 :
   project -> bool
@@ -82,14 +98,61 @@ val _UU6279__UU51c6__UU5e74__UU4efd__UU4e0d__UU65e9__UU4e8e_2023 :
 
 val _UU8d39__UU7528__UU8d85__UU8fc7_200_UU4e07__UU5143_ : project -> bool
 
+val _UU4e2d__UU592e__UU8d22__UU653f__UU9884__UU7b97__UU4e0d__UU8d85__UU8fc7_400_UU4e07__UU5143_ :
+  project -> bool
+
 val _UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_ :
   int -> project -> bool
 
-val _UU9879__UU76ee__UU5c5e__UU4e8e__UU603b__UU6570__UU8303__UU56f4_ :
+val _UU79d1__UU6280__UU90e8_2026_UU622a__UU6b62__UU65e5__UU524d__UU7ed3__UU675f_ :
+  project -> bool
+
+val _UU662f__UU57fa__UU91d1__UU59d4__UU6307__UU5357_ : project -> bool
+
+val _UU662f__UU5df2__UU660e__UU786e__UU79d1__UU6280__UU90e8_2026_UU6307__UU5357_ :
+  project -> bool
+
+val _UU5c5e__UU4e8e__UU57fa__UU91d1__UU59d4__UU9879__UU76ee_ : project -> bool
+
+val _UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_ :
+  project -> bool
+
+val _UU5c5e__UU4e8e__UU5341__UU4e00__UU6708__UU6307__UU5357__UU6269__UU5c55__UU8ba1__UU5212_ :
+  project -> bool
+
+val _UU662f__UU7533__UU8bf7__UU9636__UU6bb5_ : project -> bool
+
+val _UU662f__UU83b7__UU8d44__UU52a9__UU8bb0__UU5f55_ : project -> bool
+
+val _UU540c__UU7c7b__UU7533__UU8bf7__UU89c4__UU5219__UU9002__UU7528_ :
+  project -> bool
+
+val _UU540c__UU7c7b__UU7533__UU8bf7__UU5e94__UU8ba1__UU6570_ :
+  project -> project -> bool
+
+val _UU4e0a__UU5e74__UU5ea6__UU83b7__UU8d44__UU52a9__UU9650__UU5236__UU9002__UU7528_ :
+  project -> bool
+
+val _UU662f__UU4e0a__UU5e74__UU5ea6__UU540c__UU7c7b__UU83b7__UU8d44__UU52a9__UU9879__UU76ee_ :
+  int -> project -> project -> bool
+
+val _UU4e0a__UU5e74__UU5ea6__UU83b7__UU8d44__UU52a9__UU540c__UU7c7b__UU9879__UU76ee__UU4e0d__UU5f97__UU7533__UU8bf7_ :
+  int -> project -> project list -> bool
+
+val _UU9879__UU76ee__UU5c5e__UU4e8e__UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8303__UU56f4_ :
+  project -> bool
+
+val _UU57fa__UU91d1__UU59d4__UU7533__UU8bf7__UU9636__UU6bb5__UU5e94__UU8ba1__UU5165__UU603b__UU6570_ :
   project -> bool
 
 val _UU5728__UU7814__UU53c2__UU4e0e__UU9879__UU76ee__UU5e94__UU8ba1__UU6570_ :
   profile -> project -> bool
+
+val _UU662f__UU57fa__UU91d1__UU59d4__UU8d1f__UU8d23__UU4eba__UU89d2__UU8272_ :
+  Domain_types.project_role -> bool
+
+val _UU662f__UU57fa__UU91d1__UU59d4__UU53c2__UU4e0e__UU8005__UU89d2__UU8272_ :
+  Domain_types.project_role -> bool
 
 val _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU603b__UU6570_ :
   profile -> int -> project -> bool
@@ -102,9 +165,6 @@ val _UU5e94__UU8ba1__UU5165__UU53c2__UU4e0e__UU8005__UU603b__UU6570_ :
 
 val _UU6309__UU6761__UU4ef6__UU8ba1__UU6570_ :
   (project -> bool) -> project list -> int
-
-val _UU540c__UU7c7b__UU7533__UU8bf7__UU603b__UU6570_ :
-  project -> project list -> int
 
 val _UU9879__UU76ee__UU603b__UU6570_ :
   profile -> int -> project -> project list -> int
@@ -124,17 +184,62 @@ val _UU79d1__UU6280__UU91cd__UU5927__UU4e13__UU9879__UU6807__UU8bc6__UU7eb3__UU5
 val _UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5339__UU914d_ :
   profile -> project -> bool
 
+val _UU4f9d__UU6307__UU5357__UU4ecd__UU5728__UU8054__UU5408__UU9650__UU9879__UU671f__UU5185_ :
+  int -> project -> project -> bool
+
+val _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU8054__UU5408__UU9650__UU9879_ :
+  profile -> int -> project -> project -> bool
+
 val _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_ :
   profile -> int -> project -> project list -> int
 
-val _UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_ :
+val _UU662f__UU79d1__UU5b66__UU4eea__UU5668__UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee_ :
   project -> bool
 
+val _UU79d1__UU5b66__UU4eea__UU5668__UU8054__UU5408__UU9650__UU9879__UU603b__UU6570_ :
+  profile -> int -> project -> project list -> int
+
+val _UU79d1__UU6280__UU90e8__UU8d1f__UU8d23__UU4eba__UU7533__UU62a5__UU5e94__UU8ba1__UU6570_ :
+  project -> bool
+
+val _UU79d1__UU6280__UU90e8__UU540c__UU671f__UU8d1f__UU8d23__UU4eba__UU7533__UU62a5__UU603b__UU6570_ :
+  project -> project list -> int
+
 val _UU662f__UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba_ :
-  int -> project -> bool
+  project -> bool
 
 val _UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU4e0d__UU5f97__UU518d__UU6b21__UU7533__UU62a5_ :
-  int -> project -> project list -> bool
+  project -> project list -> bool
+
+val _UU5728__UU7814__UU8bfe__UU9898__UU8d1f__UU8d23__UU4eba__UU4e0d__UU5f97__UU518d__UU6b21__UU7275__UU5934_ :
+  project -> project list -> bool
+
+val _UU79d1__UU6280__UU90e8__UU5c0f__UU989d__UU56fd__UU9645__UU5408__UU4f5c__UU4e0d__UU8ba1__UU5185__UU90e8__UU603b__UU6570_ :
+  project -> bool
+
+val _UU79d1__UU6280__UU90e8__UU6307__UU5357__UU7c7b__UU522b__UU7eb3__UU5165__UU5185__UU90e8__UU603b__UU6570_ :
+  project -> project -> bool
+
+val _UU9879__UU76ee__UU5e94__UU8ba1__UU5165__UU79d1__UU6280__UU90e8__UU5185__UU90e8__UU603b__UU6570_ :
+  project -> project -> bool
+
+val _UU79d1__UU6280__UU90e8__UU5185__UU90e8__UU9879__UU76ee__UU603b__UU6570_ :
+  project -> project list -> int
+
+val _UU9000__UU51fa__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU6267__UU884c__UU671f__UU5185__UU4e0d__UU5f97__UU7533__UU62a5_ :
+  project -> project list -> bool
+
+val _UU57fa__UU91d1__UU59d4__UU7279__UU6b8a__UU89c4__UU5219__UU9700__UU8981__UU590d__UU6838_ :
+  project -> bool
+
+val _UU590d__UU6838__UU539f__UU56e0__UU5217__UU8868_ :
+  project -> Domain_types.review_reason list
+
+val _UU540c__UU7c7b__UU7533__UU8bf7__UU8fdd__UU89c4__UU5217__UU8868_ :
+  project -> project list -> Domain_types.violation list
+
+val _UU4e0a__UU5e74__UU5ea6__UU83b7__UU8d44__UU52a9__UU8fdd__UU89c4__UU5217__UU8868_ :
+  int -> project -> project list -> Domain_types.violation list
 
 val _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ :
   profile -> int -> project -> project list -> Domain_types.violation list
@@ -142,8 +247,23 @@ val _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ :
 val _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ :
   profile -> int -> project -> project list -> Domain_types.violation list
 
+val _UU79d1__UU5b66__UU4eea__UU5668__UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ :
+  profile -> int -> project -> project list -> Domain_types.violation list
+
+val _UU79d1__UU6280__UU90e8__UU540c__UU671f__UU8d1f__UU8d23__UU4eba__UU7533__UU62a5__UU8fdd__UU89c4__UU5217__UU8868_ :
+  project -> project list -> Domain_types.violation list
+
 val _UU5728__UU7814__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU8fdd__UU89c4__UU5217__UU8868_ :
-  int -> project -> project list -> Domain_types.violation list
+  project -> project list -> Domain_types.violation list
+
+val _UU5728__UU7814__UU8bfe__UU9898__UU8d1f__UU8d23__UU4eba__UU8fdd__UU89c4__UU5217__UU8868_ :
+  project -> project list -> Domain_types.violation list
+
+val _UU79d1__UU6280__UU90e8__UU5185__UU90e8__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ :
+  project -> project list -> Domain_types.violation list
+
+val _UU9000__UU51fa__UU9879__UU76ee__UU8fdd__UU89c4__UU5217__UU8868_ :
+  project -> project list -> Domain_types.violation list
 
 val _UU8fdd__UU89c4__UU5217__UU8868_ :
   profile -> int -> project -> project list -> Domain_types.violation list
@@ -161,7 +281,13 @@ val participant_count : profile -> int -> project -> project list -> int
 
 val joint_count : profile -> int -> project -> project list -> int
 
+val most_internal_count : project -> project list -> int
+
+val instrument_joint_count : profile -> int -> project -> project list -> int
+
 val violations :
   profile -> int -> project -> project list -> Domain_types.violation list
+
+val review_reasons : project -> Domain_types.review_reason list
 
 val check : profile -> int -> project -> project list -> Domain_types.decision
