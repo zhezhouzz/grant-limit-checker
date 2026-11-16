@@ -68,4 +68,25 @@ const youngScientist = check(
 assert.equal(youngScientist.decision, "allowed");
 assert.equal(youngScientist.counts.joint, 2);
 
+const activeProjectPrincipalParticipatesAgain = check(
+  "17,0,5,0,2027,2030,0,0",
+  "17,0,1,1,2025,2029,0,0"
+);
+assert.equal(activeProjectPrincipalParticipatesAgain.decision, "blocked");
+assert.deepEqual(activeProjectPrincipalParticipatesAgain.violations, [
+  "MOST-2026-ACTIVE-PROJECT-PRINCIPAL"
+]);
+
+const activeTaskPrincipalParticipatesAsKeyMember = check(
+  "17,0,5,0,2027,2030,0,0",
+  "17,0,3,1,2025,2029,0,0"
+);
+assert.equal(activeTaskPrincipalParticipatesAsKeyMember.decision, "allowed");
+
+const projectPrincipalEndsInApplicationYear = check(
+  "17,0,5,0,2027,2030,0,0",
+  "17,0,1,1,2025,2026,0,0"
+);
+assert.equal(projectPrincipalEndsInApplicationYear.decision, "allowed");
+
 console.log(`OCaml kernel smoke tests passed (${kernelBytes} bytes)`);

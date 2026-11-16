@@ -76,12 +76,14 @@ const titles: Option[] = [
 
 const nsfcSource = "https://www.nsfc.gov.cn/u/cms/www/202601/190844586k0w.pdf";
 const jointSource = "https://www.most.gov.cn/xxgk/xinxifenlei/fdzdgknr/fgzc/gfxwj/gfxwj2022/202208/t20220810_181836.html";
+const most2026Source = "https://service.most.gov.cn/kjjh_tztg_all/20261110/5933.html";
 const ruleText: Record<string, { title: string; body: string; source: string; href: string }> = {
   "NSFC-2026-GENERAL-1": { title: "同年同类型申请超过 1 项", body: "作为申请人，本年度同类型项目数量超过一般上限 1 项。", source: "2026 申请规定，第 7 页，二（一）1", href: nsfcSource },
   "NSFC-2026-TOTAL-SENIOR-2": { title: "高级职称人员项目总数超过 2 项", body: "计入范围的申请和正在承担项目总数超过 2 项。", source: "2026 申请规定，第 7–8 页，二（二）1", href: nsfcSource },
   "NSFC-2026-TOTAL-NONSENIOR-LEADER-1": { title: "非高级职称人员负责人项目数超过 1 项", body: "作为申请人申请和作为负责人正在承担的项目合计超过 1 项。", source: "2026 申请规定，第 7–8 页，二（二）1", href: nsfcSource },
   "NSFC-2026-TOTAL-NONSENIOR-PARTICIPANT-2": { title: "非高级职称人员参与项目数超过 2 项", body: "作为主要参与者申请和正在承担的项目合计超过 2 项。", source: "2026 申请规定，第 7–8 页，二（二）1", href: nsfcSource },
-  "JOINT-2022-107-LIMIT-2": { title: "国家科技计划联合限项超过 2 项", body: "符合实施范围的申请和在研项目合计超过 2 项。", source: "国科办资〔2022〕107 号，二、三（一）", href: jointSource }
+  "JOINT-2022-107-LIMIT-2": { title: "国家科技计划联合限项超过 2 项", body: "符合实施范围的申请和在研项目合计超过 2 项。", source: "国科办资〔2022〕107 号，二、三（一）", href: jointSource },
+  "MOST-2026-ACTIVE-PROJECT-PRINCIPAL": { title: "在研项目负责人不得再次申报或参与", body: "你正在承担国家重点研发计划或国家科技重大专项的项目负责人任务，不能再牵头或参与申报新的项目（课题）。", source: "“十五五”重点专项 2026 年申报指南，三、2", href: most2026Source }
 };
 
 const modelFiles = [

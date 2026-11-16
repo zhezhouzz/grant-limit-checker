@@ -35,7 +35,8 @@ Extract Inductive 项目状态 => "Domain_types.project_status"
 Extract Inductive 违规原因 => "Domain_types.violation"
   [ "Domain_types.SameTypeApplicationLimit" "Domain_types.SeniorTotalLimit"
     "Domain_types.NonSeniorLeaderLimit" "Domain_types.NonSeniorParticipantLimit"
-    "Domain_types.JointNationalProgramLimit" ].
+    "Domain_types.JointNationalProgramLimit"
+    "Domain_types.ActiveNationalProjectPrincipalLimit" ].
 Extract Inductive 判定结果 => "Domain_types.decision"
   [ "Domain_types.Allowed" "Domain_types.Blocked" ].
 

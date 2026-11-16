@@ -82,6 +82,7 @@ let violation_code = function
   | NonSeniorLeaderLimit -> "NSFC-2026-TOTAL-NONSENIOR-LEADER-1"
   | NonSeniorParticipantLimit -> "NSFC-2026-TOTAL-NONSENIOR-PARTICIPANT-2"
   | JointNationalProgramLimit -> "JOINT-2022-107-LIMIT-2"
+  | ActiveNationalProjectPrincipalLimit -> "MOST-2026-ACTIVE-PROJECT-PRINCIPAL"
 
 let json_string_list values =
   values |> List.map (Printf.sprintf "%S") |> String.concat "," |> Printf.sprintf "[%s]"

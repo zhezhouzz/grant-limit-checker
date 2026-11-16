@@ -48,5 +48,6 @@ type violation =
   | NonSeniorLeaderLimit
   | NonSeniorParticipantLimit
   | JointNationalProgramLimit
+  | ActiveNationalProjectPrincipalLimit
 
 type decision = Allowed | Blocked

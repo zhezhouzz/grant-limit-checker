@@ -18,6 +18,12 @@ module Nat =
     (<=) (Stdlib.Int.succ n) m
  end
 
+(** val existsb : ('a1 -> bool) -> 'a1 list -> bool **)
+
+let rec existsb f = function
+| [] -> false
+| a :: l0 -> (||) (f a) (existsb f l0)
+
 type project = { kind : Domain_types.project_kind;
                  tag : Domain_types.project_tag;
                  role : Domain_types.project_role;
@@ -174,6 +180,13 @@ let _UU662f__UU7533__UU8bf7__UU4eba_ = function
 
 let _UU662f__UU8d1f__UU8d23__UU4eba_ = function
 | Domain_types.Applicant -> true
+| Domain_types.Principal -> true
+| _ -> false
+
+(** val _UU662f__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU89d2__UU8272_ :
+    Domain_types.project_role -> bool **)
+
+let _UU662f__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU89d2__UU8272_ = function
 | Domain_types.Principal -> true
 | _ -> false
 
@@ -527,6 +540,48 @@ let _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_ _UU4eba__UU
      then Stdlib.Int.succ 0
      else 0)
 
+(** val _UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_ :
+    project -> bool **)
+
+let _UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
+  match _UU9879__UU76ee__UU7c7b__UU522b__UU503c_
+          _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
+  | Domain_types.NationalKeyRAndD -> true
+  | Domain_types.NationalMajorProgram -> true
+  | _ -> false
+
+(** val _UU662f__UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba_ :
+    int -> project -> bool **)
+
+let _UU662f__UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ =
+  (&&)
+    (_UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_
+      _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)
+    ((&&)
+      (_UU662f__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU89d2__UU8272_
+        (_UU9879__UU76ee__UU89d2__UU8272__UU503c_
+          _UU5f85__UU5224__UU65ad__UU9879__UU76ee_))
+      ((&&)
+        (match _UU9879__UU76ee__UU72b6__UU6001__UU503c_
+                 _UU5f85__UU5224__UU65ad__UU9879__UU76ee_ with
+         | Domain_types.Active -> true
+         | _ -> false)
+        (_UU7533__UU8bf7__UU5e74__UU5ea6__UU4ecd__UU5728__UU6267__UU884c__UU671f__UU5185_
+          _UU7533__UU8bf7__UU5e74__UU5ea6_
+          _UU5f85__UU5224__UU65ad__UU9879__UU76ee_)))
+
+(** val _UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU4e0d__UU5f97__UU518d__UU6b21__UU7533__UU62a5_ :
+    int -> project -> project list -> bool **)
+
+let _UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU4e0d__UU5f97__UU518d__UU6b21__UU7533__UU62a5_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+  (&&)
+    (_UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_
+      _UU62df__UU7533__UU62a5__UU9879__UU76ee_)
+    (existsb
+      (_UU662f__UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba_
+        _UU7533__UU8bf7__UU5e74__UU5ea6_)
+      _UU5df2__UU6709__UU9879__UU76ee_)
+
 (** val _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ :
     profile -> int -> project -> project list -> Domain_types.violation list **)
 
@@ -588,6 +643,17 @@ let _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU
        else Domain_types.JointNationalProgramLimit :: []
   else []
 
+(** val _UU5728__UU7814__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU8fdd__UU89c4__UU5217__UU8868_ :
+    int -> project -> project list -> Domain_types.violation list **)
+
+let _UU5728__UU7814__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU8fdd__UU89c4__UU5217__UU8868_ _UU7533__UU8bf7__UU5e74__UU5ea6_ _UU62df__UU7533__UU62a5__UU9879__UU76ee_ _UU5df2__UU6709__UU9879__UU76ee_ =
+  if _UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU4e0d__UU5f97__UU518d__UU6b21__UU7533__UU62a5_
+       _UU7533__UU8bf7__UU5e74__UU5ea6_
+       _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+       _UU5df2__UU6709__UU9879__UU76ee_
+  then Domain_types.ActiveNationalProjectPrincipalLimit :: []
+  else []
+
 (** val _UU8fdd__UU89c4__UU5217__UU8868_ :
     profile -> int -> project -> project list -> Domain_types.violation list **)
 
@@ -608,10 +674,15 @@ let _UU8fdd__UU89c4__UU5217__UU8868_ _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__U
         _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
         _UU62df__UU7533__UU62a5__UU9879__UU76ee_
         _UU5df2__UU6709__UU9879__UU76ee_)
-      (_UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_
-        _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
-        _UU62df__UU7533__UU62a5__UU9879__UU76ee_
-        _UU5df2__UU6709__UU9879__UU76ee_))
+      (app
+        (_UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_
+          _UU4eba__UU5458_ _UU7533__UU8bf7__UU5e74__UU5ea6_
+          _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+          _UU5df2__UU6709__UU9879__UU76ee_)
+        (_UU5728__UU7814__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU8fdd__UU89c4__UU5217__UU8868_
+          _UU7533__UU8bf7__UU5e74__UU5ea6_
+          _UU62df__UU7533__UU62a5__UU9879__UU76ee_
+          _UU5df2__UU6709__UU9879__UU76ee_)))
 
 (** val _UU68c0__UU67e5_ :
     profile -> int -> project -> project list -> Domain_types.decision **)

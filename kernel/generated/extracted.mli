@@ -8,6 +8,8 @@ module Nat :
   val ltb : int -> int -> bool
  end
 
+val existsb : ('a1 -> bool) -> 'a1 list -> bool
+
 type project = { kind : Domain_types.project_kind;
                  tag : Domain_types.project_tag;
                  role : Domain_types.project_role;
@@ -49,6 +51,9 @@ val _UU9879__UU76ee__UU7c7b__UU522b__UU76f8__UU540c_ :
 val _UU662f__UU7533__UU8bf7__UU4eba_ : Domain_types.project_role -> bool
 
 val _UU662f__UU8d1f__UU8d23__UU4eba_ : Domain_types.project_role -> bool
+
+val _UU662f__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU89d2__UU8272_ :
+  Domain_types.project_role -> bool
 
 val _UU662f__UU53c2__UU4e0e__UU8005_ : Domain_types.project_role -> bool
 
@@ -122,11 +127,23 @@ val _UU8054__UU5408__UU9650__UU9879__UU7c7b__UU522b__UU4e0e__UU89d2__UU8272__UU5
 val _UU8054__UU5408__UU9650__UU9879__UU9879__UU76ee__UU603b__UU6570_ :
   profile -> int -> project -> project list -> int
 
+val _UU5c5e__UU4e8e__UU56fd__UU5bb6__UU91cd__UU70b9__UU7814__UU53d1__UU6216__UU91cd__UU5927__UU4e13__UU9879_ :
+  project -> bool
+
+val _UU662f__UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba_ :
+  int -> project -> bool
+
+val _UU5728__UU7814__UU56fd__UU5bb6__UU79d1__UU6280__UU8ba1__UU5212__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU4e0d__UU5f97__UU518d__UU6b21__UU7533__UU62a5_ :
+  int -> project -> project list -> bool
+
 val _UU57fa__UU91d1__UU59d4__UU603b__UU6570__UU8fdd__UU89c4__UU5217__UU8868_ :
   profile -> int -> project -> project list -> Domain_types.violation list
 
 val _UU8054__UU5408__UU9650__UU9879__UU8fdd__UU89c4__UU5217__UU8868_ :
   profile -> int -> project -> project list -> Domain_types.violation list
+
+val _UU5728__UU7814__UU9879__UU76ee__UU8d1f__UU8d23__UU4eba__UU8fdd__UU89c4__UU5217__UU8868_ :
+  int -> project -> project list -> Domain_types.violation list
 
 val _UU8fdd__UU89c4__UU5217__UU8868_ :
   profile -> int -> project -> project list -> Domain_types.violation list

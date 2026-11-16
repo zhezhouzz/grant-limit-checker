@@ -84,7 +84,8 @@ Inductive 违规原因 : Type :=
 | 高级职称总数超限
 | 非高级职称负责人超限
 | 非高级职称参与者超限
-| 国家科技计划联合限项超限.
+| 国家科技计划联合限项超限
+| 国家科技计划在研项目负责人申报受限.
 
 Inductive 判定结果 : Type :=
 | 允许
@@ -112,6 +113,9 @@ Definition 是申请人 (r : 项目角色) : bool :=
 
 Definition 是负责人 (r : 项目角色) : bool :=
   match r with 申请人 | 项目负责人 => true | _ => false end.
+
+Definition 是项目负责人角色 (r : 项目角色) : bool :=
+  match r with 项目负责人 => true | _ => false end.
 
 Definition 是参与者 (r : 项目角色) : bool :=
   match r with 主要参与者 => true | _ => false end.
