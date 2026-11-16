@@ -1,0 +1,6 @@
+(executable
+ (name kernel_bridge)
+ (modules kernel_bridge)
+ (libraries grant_limit_extracted js_of_ocaml)
+ (preprocess (pps js_of_ocaml-ppx))
+ (modes js))

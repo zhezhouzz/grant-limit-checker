@@ -1,0 +1,20 @@
+opam-version: "2.0"
+synopsis: "Formally verified Chinese research grant limit checker"
+maintainer: "Zhe Zhou"
+authors: ["Zhe Zhou and contributors"]
+license: "MIT"
+homepage: "https://zhezhouzz.github.io/grant-limit-checker/"
+bug-reports: "https://github.com/zhezhouzz/grant-limit-checker/issues"
+dev-repo: "git+https://github.com/zhezhouzz/grant-limit-checker.git"
+depends: [
+  "ocaml" {>= "5.1"}
+  "dune" {>= "3.10"}
+  "rocq-core" {>= "9.0"}
+  "rocq-stdlib" {>= "9.0"}
+  "js_of_ocaml"
+  "js_of_ocaml-ppx"
+]
+build: [
+  ["make" "formal"]
+  ["dune" "build" "kernel/kernel_bridge.bc.js"]
+]

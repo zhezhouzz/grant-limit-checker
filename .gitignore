@@ -1,0 +1,10 @@
+_build/
+web/node_modules/
+web/dist/
+web/public/kernel.js
+.DS_Store
+*.vo
+*.vos
+*.vok
+*.glob
+*.aux

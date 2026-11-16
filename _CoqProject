@@ -1,0 +1,7 @@
+-Q formal GrantLimit
+
+formal/Model.v
+formal/Rules2026.v
+formal/Checker.v
+formal/Soundness.v
+formal/Extraction.v

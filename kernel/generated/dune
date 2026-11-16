@@ -1,0 +1,5 @@
+(library
+ (name grant_limit_extracted)
+ (wrapped false)
+ (flags (:standard -w -39))
+ (modules domain_types extracted))
