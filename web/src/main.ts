@@ -32,43 +32,43 @@ type KernelResult = {
 
 const agencies: Option[] = [
   { value: 0, label: "国家自然科学基金委员会", help: "适用《2026年度国家自然科学基金项目指南——申请规定》。" },
-  { value: 1, label: "科学技术部 / 国家科技计划", help: "科技部规则必须继续选择具体专项指南版本。" }
+  { value: 1, label: "科学技术部 / 国家科技计划", help: "请选择本次申报对应的重点专项指南。" }
 ];
 
 const guides: GuideOption[] = [
   { value: 0, agency: 0, label: "基金委2026申请规定", help: "2026年度国家自然科学基金项目指南的申请规定。" },
-  { value: 3, agency: 1, label: "尚未指定具体指南", help: "只能运行跨部门通用规则，最终结果将要求人工复核。" },
+  { value: 3, agency: 1, label: "暂不确定具体指南", help: "如果暂时不清楚指南版本，可先选择此项，检查器会列出需要继续核对的内容。" },
   { value: 1, agency: 1, label: "2026 · 发育编程/合成生物学", help: "基金委主责的两个国家重点研发计划重点专项2026年度指南。" },
   { value: 2, agency: 1, label: "2026 · 数学/物理/催化/AI五专项", help: "2026年11月发布的五个“十五五”国家重点研发计划重点专项指南。" }
 ];
 
 const kinds: KindOption[] = [
-  { value: 0, agency: 0, label: "面上项目", help: "已覆盖通用总数、同类型申请和上年度获资助限制。" },
-  { value: 1, agency: 0, label: "重点项目", help: "重点项目合计限1项等特殊规则仍需继续形式化。" },
+  { value: 0, agency: 0, label: "面上项目", help: "适用项目总数、同类型申请和上年度获资助等限项规定。" },
+  { value: 1, agency: 0, label: "重点项目", help: "作为申请人申请和作为负责人承担的重点项目，合计一般限1项。" },
   { value: 2, agency: 0, label: "重大项目", help: "纳入基金委通用总数和国家科技计划联合限项。" },
-  { value: 3, agency: 0, label: "重大研究计划项目", help: "集成项目、战略研究项目等亚类尚需区分。" },
-  { value: 4, agency: 0, label: "联合基金项目", help: "必须按联合基金名称判断同类型，当前返回人工复核。" },
-  { value: 5, agency: 0, label: "青年科学基金项目（C类）", help: "历史获资助次数限制尚未完整覆盖。" },
-  { value: 6, agency: 0, label: "青年科学基金项目（B类）", help: "申请与正式受理阶段的计数已区分，人才计划衔接规则尚待补充。" },
-  { value: 7, agency: 0, label: "青年科学基金项目（A类）", help: "申请与正式受理阶段的计数已区分，延续资助等规则尚待补充。" },
-  { value: 8, agency: 0, label: "地区科学基金项目", help: "自2016年起累计获资助不超过3次尚待建模。" },
-  { value: 9, agency: 0, label: "重点国际（地区）合作研究项目", help: "国际合作项目的负责人合计限1项尚待完整覆盖。" },
+  { value: 3, agency: 0, label: "重大研究计划项目", help: "集成项目、战略研究项目等亚类适用的限项规定有所不同。" },
+  { value: 4, agency: 0, label: "联合基金项目", help: "同一名称的联合基金视为同类型项目。" },
+  { value: 5, agency: 0, label: "青年科学基金项目（C类）", help: "同类型项目作为负责人原则上只能获得1次资助。" },
+  { value: 6, agency: 0, label: "青年科学基金项目（B类）", help: "申请时不计入通用总数，正式受理后开始计入。" },
+  { value: 7, agency: 0, label: "青年科学基金项目（A类）", help: "申请时不计入通用总数，正式受理后开始计入；延续资助另有规定。" },
+  { value: 8, agency: 0, label: "地区科学基金项目", help: "自2016年起，作为负责人获资助累计不超过3次。" },
+  { value: 9, agency: 0, label: "重点国际（地区）合作研究项目", help: "作为申请人申请和作为负责人承担的国际合作研究项目，合计限1项。" },
   { value: 10, agency: 0, label: "组织间国际（地区）合作研究项目", help: "直接费用超过200万元且作为申请人或负责人时纳入通用总数。" },
-  { value: 11, agency: 0, label: "国家重大科研仪器研制项目", help: "已覆盖科学仪器联合限1项，其他特殊限制仍需复核。" },
-  { value: 12, agency: 0, label: "创新研究群体项目", help: "已区分2024年批准边界和申请阶段，交叉限制尚待补充。" },
-  { value: 13, agency: 0, label: "卓越研究群体项目", help: "群体项目之间的交叉限制和退出后2年规则尚待补充。" },
-  { value: 14, agency: 0, label: "原创探索计划（期限>1年）", help: "申请阶段不计总数，获资助后计入；其他限制尚待补充。" },
-  { value: 15, agency: 0, label: "专项项目（期限>1年）", help: "具体专项说明可能另有例外。" },
-  { value: 16, agency: 0, label: "指南明确不计总数的类型", help: "仍可能适用项目自身的特殊规则，因此需要复核。" },
-  { value: 17, agency: 1, label: "国家重点研发计划", help: "必须结合具体重点专项和指南批次判断。" },
+  { value: 11, agency: 0, label: "国家重大科研仪器研制项目", help: "与国家重点研发计划中的科学仪器方向合计限1项。" },
+  { value: 12, agency: 0, label: "创新研究群体项目", help: "申请时不计入通用总数，正式受理后开始计入；2024年及以前批准的项目不计入。" },
+  { value: 13, agency: 0, label: "卓越研究群体项目", help: "申请时不计入通用总数，正式受理后开始计入；与其他群体项目有交叉限项。" },
+  { value: 14, agency: 0, label: "原创探索计划（期限>1年）", help: "申请时不计入通用总数，获资助后开始计入。" },
+  { value: 15, agency: 0, label: "专项项目（期限>1年）", help: "具体限项办法请同时参照该专项的申请说明。" },
+  { value: 16, agency: 0, label: "指南明确不计总数的类型", help: "这类项目不计入基金委通用申请和承担项目总数。" },
+  { value: 17, agency: 1, label: "国家重点研发计划", help: "具体限项口径以本次申报的重点专项指南为准。" },
   { value: 18, agency: 1, label: "国家科技重大专项", help: "包括指南明确纳入的科技创新2030、接续项目、面向2035项目等。" },
   { value: 19, agency: 1, label: "中科院抢占科技制高点攻坚专项", help: "在2026年11月五专项指南中纳入内部总数限项。" },
   { value: 20, agency: 1, label: "国家实验室专项", help: "在2026年11月五专项指南中纳入内部总数限项。" }
 ];
 
 const tags: Option[] = [
-  { value: 0, label: "无特殊标识", help: "不适用青年科学家、国际合作或仪器方向例外。" },
-  { value: 1, label: "青年科学家项目", help: "不纳入国科办资〔2022〕107号联合限项，但专项内部规则可能仍适用。" },
+  { value: 0, label: "无特殊标识", help: "项目不属于下列青年科学家、国际合作或科学仪器类别。" },
+  { value: 1, label: "青年科学家项目", help: "不纳入国科办资〔2022〕107号联合限项；专项本身的限项规定照常适用。" },
   { value: 2, label: "科技型中小企业项目", help: "不纳入国家重点研发计划跨部门联合限项。" },
   { value: 3, label: "其他国际合作类项目", help: "不纳入国家重点研发计划跨部门联合限项。" },
   { value: 4, label: "政府间国际科技创新合作", help: "中央财政预算不超过400万元时，部分2026专项指南不计内部2项总数。" },
@@ -88,14 +88,14 @@ const roles: Option[] = [
 ];
 
 const statuses: Option[] = [
-  { value: 0, label: "拟申报 / 同时申请", help: "尚未正式受理的本年度拟申报或同时申报项目。" },
+  { value: 0, label: "拟申报 / 同时申请", help: "本年度准备提交或正在同时准备的项目。" },
   { value: 1, label: "已正式受理", help: "正式接收后，部分青年和群体项目才开始计入总数。" },
-  { value: 2, label: "评审中", help: "一般计入限项；部分现场考察和预算评审例外尚需复核。" },
+  { value: 2, label: "评审中", help: "通常计入限项；是否进入现场考察或预算评审也可能影响计数。" },
   { value: 3, label: "正在承担", help: "是否仍在限项期内由所选指南和精确结束日期判断。" },
   { value: 4, label: "已退出团队", help: "科技部项目在原执行期内原则上仍可能禁止申报。" },
   { value: 5, label: "初审不予受理", help: "不计入当前申请和承担项目数量。" },
   { value: 6, label: "未获资助", help: "资助决定为不予资助后不再计入。" },
-  { value: 7, label: "已经结题", help: "已正式结题；个别资助次数或期满后规则仍可能适用。" }
+  { value: 7, label: "已经结题", help: "项目已经完成结题手续；部分获资助次数规定仍会参考历史记录。" }
 ];
 
 const titles: Option[] = [
@@ -129,14 +129,14 @@ const ruleText: Record<string, { title: string; body: string; source: string; hr
 };
 
 const reviewText: Record<string, { title: string; body: string }> = {
-  "REVIEW-MOST-GUIDE-VERSION": { title: "必须选择具体科技部指南", body: "不同重点专项和申报批次的角色范围、金额例外与时间边界不同，不能用统一的“科技部规则”代替。" },
-  "REVIEW-NSFC-SPECIAL-RULES": { title: "该基金委项目仍有特殊规则未覆盖", body: "通用数量规则已经检查，但项目亚类、获资助次数或项目之间的交叉限制仍需按照正式指南人工复核。" }
+  "REVIEW-MOST-GUIDE-VERSION": { title: "请选择本次申报对应的科技部指南", body: "不同重点专项和申报批次的限项口径不同。选定指南后，检查器才能给出对应的判断。" },
+  "REVIEW-NSFC-SPECIAL-RULES": { title: "请再核对这类项目的专项规定", body: "通用数量检查已经完成；这类项目还可能涉及项目亚类、获资助次数或交叉限项。" }
 };
 
 const modelFiles = [
   { id: "model", name: "Model.v", description: "中文领域类型、指南版本、状态与判定结果", source: modelSource },
   { id: "rules", name: "Rules2026.v", description: "精确日期谓词、基金委与科技部2026规则", source: rulesSource },
-  { id: "checker", name: "Checker.v", description: "违规、人工复核原因与三态判定", source: checkerSource },
+  { id: "checker", name: "Checker.v", description: "限项原因、待核对事项与检查结论", source: checkerSource },
   { id: "soundness", name: "Soundness.v", description: "诊断可靠性与边界示例", source: soundnessSource }
 ];
 
@@ -173,17 +173,17 @@ function numberField(id: string, label: string, value: number, help: string): st
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <header class="site-header"><div class="header-inner"><a class="brand" href="#">纵向项目限项检查器 <span class="beta">MVP</span></a><nav aria-label="主导航"><a href="#tools">使用工具</a><a href="#sources">规则来源</a><a href="https://github.com/zhezhouzz/grant-limit-checker" target="_blank" rel="noreferrer">GitHub ↗</a></nav></div></header>
   <main>
-    <section class="hero"><p class="eyebrow">Grant limit checker · Rocq verified core</p><h1>严格形式化的<br><em>项目限项检查器</em></h1><p class="lead">选择本人已有、同时申请和拟参与的项目，由网页中的 OCaml 内核运行中文 Rocq 规则，返回冲突、理由或需要人工复核的边界。</p>
-      <div class="early-badge"><strong>早期版本 · 仅覆盖部分规则</strong><span>现在区分基金委与两批科技部2026专项指南；未覆盖的特殊规则不再显示为绿色通过。</span></div>
-      <div class="principles" role="list" aria-label="项目原则"><article class="principle unofficial" role="listitem"><span>01</span><div><strong>非官方工具</strong><p>结果仅供参考，以当年正式指南和主管部门解释为准。</p></div></article><article class="principle" role="listitem"><span>02</span><div><strong>中文规则</strong><p>检查规则（中文）形式化在 Rocq 之中，方便大家检查和阅读。</p></div></article><article class="principle" role="listitem"><span>03</span><div><strong>可执行内核</strong><p>形式化定义直接 extract 成 OCaml 程序，在网页中运行。</p></div></article></div>
+    <section class="hero"><p class="eyebrow">Grant limit checker · Rocq verified core</p><h1>严格形式化的<br><em>项目限项检查器</em></h1><p class="lead">填写你正在承担、同时申报，以及准备申请或参与的项目。检查器会告诉你是否存在限项冲突，并说明判断理由。</p>
+      <div class="early-badge"><strong>早期版本 · 仅覆盖部分规则</strong><span>目前包括基金委 2026 年通用规则、跨部门联合限项和两批科技部专项指南。</span></div>
+      <div class="principles" role="list" aria-label="项目原则"><article class="principle unofficial" role="listitem"><span>01</span><div><strong>非官方工具</strong><p>结果仅供申报准备参考，请以当年正式指南和主管部门解释为准。</p></div></article><article class="principle" role="listitem"><span>02</span><div><strong>中文规则</strong><p>规则以中文写入 Rocq，便于查阅和核对。</p></div></article><article class="principle" role="listitem"><span>03</span><div><strong>可执行内核</strong><p>形式化定义会从 Rocq 抽取成 OCaml 程序，并直接在浏览器中运行。</p></div></article></div>
     </section>
     <section id="tools" class="view-switch" aria-label="选择工具" role="tablist"><button id="show-checker" class="view-tab active" type="button" role="tab" aria-selected="true" aria-controls="checker-view"><span>01</span>限项检查器</button><button id="show-model" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="model-view"><span>02</span>形式化模型</button></section>
     <div id="checker-view" class="view-panel" role="tabpanel" aria-labelledby="show-checker">
       <section id="checker" class="checker" aria-labelledby="checker-title"><div class="section-heading"><div><span class="step">01</span><h2 id="checker-title">个人情况</h2></div></div><div class="field-grid single">${selectField("current-title", "当前专业技术职务", titles, 0, "职称会影响部分项目数量上限。")}</div>
-        <div class="section-heading subsection"><div><span class="step">02</span><h2>拟申请或拟参与项目</h2></div></div><div id="candidate" class="field-grid">${selectField("candidate-agency", "主管部门 / 计划体系", agencies, 0, "先选择主管部门。")}${selectField("candidate-guide", "适用指南版本", guidesForAgency(0), 0, "规则必须绑定到正式指南版本。")}${selectField("candidate-kind", "项目类型", kindsForAgency(0), 0, "项目类型决定适用规则。")}${selectField("candidate-tag", "项目标识", tagsFor(0, 0), 0, "只显示该项目类型允许的标识。")}${selectField("candidate-role", "你的角色", rolesFor(0, true, 0, 0), 0, "只显示该计划体系允许的候选角色。")}${yearField("candidate-year", "申请年度", currentYear, "本版规则固定为2026年度。", true)}${yearField("candidate-start", "预计开始年度", 2027, "预计项目执行期开始年度。")}${yearField("candidate-end", "预计结束年度", 2029, "预计执行期结束年度。")}${monthField("candidate-end-month", 12)}${dayField("candidate-end-day", 31)}${numberField("candidate-cost", "基金委直接费用（万元）", 0, "仅用于基金委组织间国际合作项目的200万元边界。")}${numberField("candidate-budget", "中央财政专项资金预算（万元）", 0, "仅用于科技部国际合作项目的400万元边界，不等同于基金委直接费用。")}</div>
+        <div class="section-heading subsection"><div><span class="step">02</span><h2>拟申请或拟参与项目</h2></div></div><div id="candidate" class="field-grid">${selectField("candidate-agency", "主管部门 / 计划体系", agencies, 0, "选择本次申报所属的计划体系。")}${selectField("candidate-guide", "适用指南版本", guidesForAgency(0), 0, "选择本次申报所依据的指南。")}${selectField("candidate-kind", "项目类型", kindsForAgency(0), 0, "选择准备申请或参与的项目类型。")}${selectField("candidate-tag", "项目标识", tagsFor(0, 0), 0, "选择项目所属的专项类别。")}${selectField("candidate-role", "你的角色", rolesFor(0, true, 0, 0), 0, "选择你准备在项目中担任的角色。")}${yearField("candidate-year", "申请年度", currentYear, "本页检查2026年度申报。", true)}${yearField("candidate-start", "预计开始年度", 2027, "项目计划开始执行的年度。")}${yearField("candidate-end", "预计结束年度", 2029, "项目计划结束执行的年度。")}${monthField("candidate-end-month", 12)}${dayField("candidate-end-day", 31)}${numberField("candidate-cost", "基金委直接费用（万元）", 0, "用于判断组织间国际合作项目是否超过200万元。")}${numberField("candidate-budget", "中央财政专项资金预算（万元）", 0, "用于判断科技部国际合作项目是否适用400万元的规定。")}</div>
         <div class="section-heading subsection"><div><span class="step">03</span><h2>已有或同时申请的项目</h2></div><button id="add-project" class="button secondary" type="button">＋ 添加项目</button></div><div id="project-list" class="project-list"></div><div id="empty-state" class="empty-state">尚未添加已有项目，可以直接检查。</div><div class="actions"><button id="run-check" class="button primary" type="button">运行形式化检查 <span>⌘↵</span></button><span id="kernel-status" class="kernel-status">正在加载 OCaml 内核…</span></div>
       </section><section id="result" class="result hidden" aria-live="polite"></section>
-      <section id="sources" class="sources"><div class="section-heading"><div><span class="step">04</span><h2>规则来源与覆盖范围</h2></div></div><div class="source-grid"><article><h3>国家自然科学基金</h3><p>《2026年度国家自然科学基金项目指南——申请规定》</p><a href="${nsfcSource}" target="_blank" rel="noreferrer">查看基金委PDF ↗</a></article><article><h3>科技部2026专项指南</h3><p>分别绑定7月两个专项和11月五个专项，不再泛化成一套规则。</p><a href="${mostFiveSource}" target="_blank" rel="noreferrer">查看五专项指南 ↗</a></article><article><h3>发现问题？</h3><p>提交正式来源、规则纠错或匿名化反例。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/issues/new?template=rule-report.yml" target="_blank" rel="noreferrer">提交规则 Issue ↗</a></article></div></section>
+      <section id="sources" class="sources"><div class="section-heading"><div><span class="step">04</span><h2>规则来源</h2></div></div><div class="source-grid"><article><h3>国家自然科学基金</h3><p>《2026年度国家自然科学基金项目指南——申请规定》</p><a href="${nsfcSource}" target="_blank" rel="noreferrer">查看基金委PDF ↗</a></article><article><h3>科技部2026专项指南</h3><p>包括7月发布的两个重点专项指南和11月发布的五个重点专项指南。</p><a href="${mostFiveSource}" target="_blank" rel="noreferrer">查看五专项指南 ↗</a></article><article><h3>发现问题？</h3><p>欢迎提交正式来源、规则纠错或匿名化案例。</p><a href="https://github.com/zhezhouzz/grant-limit-checker/issues/new?template=rule-report.yml" target="_blank" rel="noreferrer">提交规则 Issue ↗</a></article></div></section>
     </div>
     <section id="model-view" class="view-panel model-view hidden" role="tabpanel" aria-labelledby="show-model"><div class="model-intro"><p class="eyebrow">Rocq source · synchronized at build time</p><h2>主要形式化模型</h2><p>以下内容在网页构建时直接读取本版本仓库中的 Rocq 源文件。</p></div><div class="model-layout"><nav class="file-tabs" aria-label="形式化文件">${modelFiles.map((file, index) => `<button class="file-tab ${index === 0 ? "active" : ""}" type="button" data-file="${file.id}"><strong>${file.name}</strong><span>${file.description}</span></button>`).join("")}</nav><div class="code-panel"><div class="code-head"><div><strong id="code-name"></strong><span id="code-description"></span></div><a id="code-github" target="_blank" rel="noreferrer">在 GitHub 查看 ↗</a></div><pre tabindex="0"><code id="model-code"></code></pre></div></div></section>
   </main><footer><p>非官方 · 中文规则 · Rocq → OCaml</p><a href="https://github.com/zhezhouzz/grant-limit-checker/blob/main/LICENSE">MIT License</a></footer>`;
@@ -194,7 +194,7 @@ function setSelect(id: string, values: Option[], preferred?: number): number { c
 function selectNumber(id: string, fallback: number): number { const value = Number(document.querySelector<HTMLInputElement | HTMLSelectElement>(`#${id}`)?.value ?? fallback); return Number.isFinite(value) && value >= 0 ? Math.trunc(value) : fallback; }
 
 function projectCard(project: ProjectInput, index: number): string {
-  return `<article class="project-card" data-index="${index}"><div class="project-card-header"><h3>项目 ${index + 1}</h3><button class="remove-project" data-index="${index}" type="button" aria-label="删除项目 ${index + 1}">删除</button></div><div class="field-grid project-fields">${selectField(`agency-${index}`, "主管部门 / 计划体系", agencies, project.agency, "先选择主管部门。")}${selectField(`guide-${index}`, "适用指南版本", guidesForAgency(project.agency), project.guide, "选择该项目所属指南；既有科技部项目可选择未指定。")}${selectField(`kind-${index}`, "项目类型", kindsForAgency(project.agency), project.kind, "请选择对应计划体系中的项目类别。")}${selectField(`tag-${index}`, "项目标识", tagsFor(project.agency, project.kind), project.tag, "只显示该类型允许的标识。")}${selectField(`role-${index}`, "你的角色", rolesFor(project.agency, false, project.guide, project.kind), project.role, "选择你在该项目中的身份。")}${selectField(`status-${index}`, "项目状态 / 申报阶段", statusesFor(project.agency), project.status, "不同申报阶段可能采用不同计数方式。")}${yearField(`start-${index}`, "批准 / 开始年度", project.startYear, "用于获资助年份和参与项目计数分界。")}${yearField(`end-${index}`, "执行期结束年度", project.endYear, "填写包括获批延期后的执行期结束年度。")}${monthField(`end-month-${index}`, project.endMonth)}${dayField(`end-day-${index}`, project.endDay)}${numberField(`cost-${index}`, "基金委直接费用（万元）", project.directCost, "用于基金委组织间国际合作项目200万元边界。")}${numberField(`budget-${index}`, "中央财政专项资金预算（万元）", project.centralBudget, "用于科技部国际合作项目400万元边界。")}${selectField(`title-${index}`, "批准时职称", titles, project.titleAtApproval, "用于处理晋升高级职称后的参与项目例外。")}</div></article>`;
+  return `<article class="project-card" data-index="${index}"><div class="project-card-header"><h3>项目 ${index + 1}</h3><button class="remove-project" data-index="${index}" type="button" aria-label="删除项目 ${index + 1}">删除</button></div><div class="field-grid project-fields">${selectField(`agency-${index}`, "主管部门 / 计划体系", agencies, project.agency, "选择这个项目所属的计划体系。")}${selectField(`guide-${index}`, "适用指南版本", guidesForAgency(project.agency), project.guide, "选择这个项目申报时所依据的指南；如果暂时不确定，可选择“暂不确定具体指南”。")}${selectField(`kind-${index}`, "项目类型", kindsForAgency(project.agency), project.kind, "选择这个项目的具体类型。")}${selectField(`tag-${index}`, "项目标识", tagsFor(project.agency, project.kind), project.tag, "选择这个项目所属的专项类别。")}${selectField(`role-${index}`, "你的角色", rolesFor(project.agency, false, project.guide, project.kind), project.role, "选择你在这个项目中担任的角色。")}${selectField(`status-${index}`, "项目状态 / 申报阶段", statusesFor(project.agency), project.status, "选择这个项目目前所处的阶段。")}${yearField(`start-${index}`, "批准 / 开始年度", project.startYear, "填写项目获批或开始执行的年度。")}${yearField(`end-${index}`, "执行期结束年度", project.endYear, "填写项目执行期结束的年度；如果已经获批延期，请填写延期后的时间。")}${monthField(`end-month-${index}`, project.endMonth)}${dayField(`end-day-${index}`, project.endDay)}${numberField(`cost-${index}`, "基金委直接费用（万元）", project.directCost, "用于判断组织间国际合作项目是否超过200万元。")}${numberField(`budget-${index}`, "中央财政专项资金预算（万元）", project.centralBudget, "用于判断科技部国际合作项目是否适用400万元的规定。")}${selectField(`title-${index}`, "批准时职称", titles, project.titleAtApproval, "请填写项目获批时的职称，用于判断职称变化后的计数方式。")}</div></article>`;
 }
 
 function collectProjects(): void { projects = projects.map((project, index) => ({ agency: selectNumber(`agency-${index}`, project.agency), kind: selectNumber(`kind-${index}`, project.kind), guide: selectNumber(`guide-${index}`, project.guide), tag: selectNumber(`tag-${index}`, project.tag), role: selectNumber(`role-${index}`, project.role), status: selectNumber(`status-${index}`, project.status), startYear: selectNumber(`start-${index}`, project.startYear), endYear: selectNumber(`end-${index}`, project.endYear), endMonth: selectNumber(`end-month-${index}`, project.endMonth), endDay: selectNumber(`end-day-${index}`, project.endDay), directCost: selectNumber(`cost-${index}`, project.directCost), centralBudget: selectNumber(`budget-${index}`, project.centralBudget), titleAtApproval: selectNumber(`title-${index}`, project.titleAtApproval) })); }
@@ -224,16 +224,16 @@ function runCheck(): void {
 
 function renderResult(result: KernelResult, title: number, agency: number): void {
   const element = document.querySelector<HTMLElement>("#result"); if (!element) return; element.classList.remove("hidden");
-  if (!result.ok) { element.innerHTML = `<div class="verdict invalid"><span>!</span><div><p>规范化输入错误</p><h2>字段组合或日期无效</h2></div></div>`; return; }
+  if (!result.ok) { element.innerHTML = `<div class="verdict invalid"><span>!</span><div><p>请检查填写内容</p><h2>项目类型、角色或日期不匹配</h2></div></div>`; return; }
   const blocked = result.decision === "blocked"; const review = result.decision === "review";
-  const symbol = blocked ? "×" : review ? "?" : "✓"; const verdictClass = blocked ? "blocked" : review ? "review" : "allowed"; const heading = blocked ? "发现限项冲突" : review ? "需要人工复核" : "当前规则下允许";
+  const symbol = blocked ? "×" : review ? "?" : "✓"; const verdictClass = blocked ? "blocked" : review ? "review" : "allowed"; const heading = blocked ? "发现限项冲突" : review ? "还有专项规定需要核对" : "未发现限项冲突";
   const countSummary = agency === 0
     ? (title === 0 ? `基金委通用总数：<strong>${result.counts.total}</strong> / 2` : `负责人：<strong>${result.counts.leader}</strong> / 1　参与者：<strong>${result.counts.participant}</strong> / 2`)
     : `专项内部总数：<strong>${result.counts.mostInternal}</strong> / 2`;
   const violations = result.violations.map((code) => { const rule = ruleText[code]; return `<div class="diagnostic fail"><code>${code}</code><div><h3>${rule?.title ?? "触发限项规则"}</h3><p>${rule?.body ?? "请查阅对应规则。"}</p><a href="${rule?.href ?? nsfcSource}" target="_blank" rel="noreferrer">${rule?.source ?? "查看来源"} ↗</a></div></div>`; }).join("");
-  const reviews = result.reviews.map((code) => { const item = reviewText[code]; return `<div class="diagnostic review"><code>${code}</code><div><h3>${item?.title ?? "需要人工复核"}</h3><p>${item?.body ?? "当前形式化模型尚不能给出完整结论。"}</p></div></div>`; }).join("");
-  const pass = !blocked && !review ? `<div class="diagnostic pass"><code>CHECK-PASSED</code><div><h3>适用规则已通过</h3><p>当前输入落在已形式化覆盖范围内，没有发现限项冲突。</p></div></div>` : "";
-  element.innerHTML = `<div class="result-head"><div class="verdict ${verdictClass}"><span>${symbol}</span><div><p>Rocq → OCaml 判定</p><h2>${heading}</h2></div></div><div class="count-summary">${countSummary}<small>跨部门联合：${result.counts.joint} / 2 · 科学仪器联合：${result.counts.instrumentJoint} / 1 · 同类型申请：${result.counts.sameType}</small></div></div><div class="diagnostics"><h3 class="diagnostics-title">诊断信息</h3>${violations}${reviews}${pass}</div><div class="coverage-warning">非官方早期版本：黄色“需要人工复核”表示当前输入超出完整形式化覆盖范围，不能理解为允许。</div>`; element.scrollIntoView({ behavior: "smooth", block: "start" });
+  const reviews = result.reviews.map((code) => { const item = reviewText[code]; return `<div class="diagnostic review"><code>${code}</code><div><h3>${item?.title ?? "请继续核对专项规定"}</h3><p>${item?.body ?? "请结合本次申报指南确认。"}</p></div></div>`; }).join("");
+  const pass = !blocked && !review ? `<div class="diagnostic pass"><code>CHECK-PASSED</code><div><h3>检查完成</h3><p>根据你选择的项目和指南，没有发现限项冲突。</p></div></div>` : "";
+  element.innerHTML = `<div class="result-head"><div class="verdict ${verdictClass}"><span>${symbol}</span><div><p>Rocq → OCaml 判定</p><h2>${heading}</h2></div></div><div class="count-summary">${countSummary}<small>跨部门联合：${result.counts.joint} / 2 · 科学仪器联合：${result.counts.instrumentJoint} / 1 · 同类型申请：${result.counts.sameType}</small></div></div><div class="diagnostics"><h3 class="diagnostics-title">检查结果</h3>${violations}${reviews}${pass}</div><div class="coverage-warning">本工具为非官方项目，结果仅供申报准备参考，请以当年正式指南和主管部门解释为准。</div>`; element.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function showView(view: "checker" | "model"): void { const checker = document.querySelector<HTMLElement>("#checker-view"); const model = document.querySelector<HTMLElement>("#model-view"); const checkerButton = document.querySelector<HTMLButtonElement>("#show-checker"); const modelButton = document.querySelector<HTMLButtonElement>("#show-model"); const checkerActive = view === "checker"; checker?.classList.toggle("hidden", !checkerActive); model?.classList.toggle("hidden", checkerActive); checkerButton?.classList.toggle("active", checkerActive); modelButton?.classList.toggle("active", !checkerActive); checkerButton?.setAttribute("aria-selected", String(checkerActive)); modelButton?.setAttribute("aria-selected", String(!checkerActive)); }
